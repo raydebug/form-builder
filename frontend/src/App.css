@@ -1,0 +1,115 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 15px 20px; /* Slightly reduced padding */
+  color: white;
+  text-align: center;
+  /* margin-bottom: 20px; */ /* Removed margin, handled by flex layout */
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 1.8em;
+}
+
+.App-content-wrapper {
+  display: flex;
+  flex-grow: 1; /* Allows this wrapper to fill available space */
+  overflow-y: hidden; /* Prevent double scrollbars if panels manage their own */
+}
+
+.App-sidebar {
+  width: 200px; /* Fixed width for form list/navigation */
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.App-sidebar h4 {
+  margin-top: 0;
+}
+
+.App-main-content {
+  flex: 2; /* Takes more space */
+  padding: 15px;
+  overflow-y: auto; /* Scroll for form tree if it's long */
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+.App-attribute-panel {
+  flex: 1; /* Takes less space than main content */
+  padding: 15px;
+  background-color: #fdfdfd;
+  overflow-y: auto; /* Scroll for attribute panel if content is long */
+}
+
+.panel-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #777;
+  font-style: italic;
+}
+
+
+.App-loading, .App-error {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 30px;
+  width: 100%; /* Ensure it takes full width if content wrapper is flex */
+}
+
+.App-error {
+  color: red;
+}
+
+.App-footer {
+  /* margin-top: 20px; */ /* Footer is now part of the main flex column */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.9em;
+  flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+/* General Node Styling - can be overridden by specific node CSS */
+/* These are now more specific to be inside .App-main-content */
+.App-main-content .form-node,
+.App-main-content .page-node,
+.App-main-content .component-node {
+  padding: 5px;
+  margin-left: 20px; /* Basic indentation for hierarchy */
+  cursor: pointer;
+  border-left: 2px solid transparent; /* For hover/selection indication */
+  transition: background-color 0.2s ease-in-out, border-left-color 0.2s ease-in-out;
+}
+
+.App-main-content .form-node {
+  margin-left: 0; /* Root form node doesn't need initial margin */
+}
+
+
+.App-main-content .form-node:hover,
+.App-main-content .page-node:hover,
+.App-main-content .component-node:hover {
+  background-color: #eef8ff;
+  border-left-color: #007bff;
+}
+
+.App-main-content .selected-node {
+  background-color: #ddeeff !important; /* Light blue for selected */
+  border-left-color: #0056b3 !important; /* Darker blue for selected */
+  font-weight: bold;
+}
+
+/* Specific node styling will be in their respective CSS files */

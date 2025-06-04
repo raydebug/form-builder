@@ -1,0 +1,18 @@
+.page-node {
+  /* Indentation already handled by general .page-node in App.css */
+  border: 1px dotted #ddd;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 8px;
+  background-color: #fdfdfd;
+}
+
+.page-node .page-content {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.page-components {
+  margin-top: 5px;
+}

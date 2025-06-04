@@ -1,0 +1,16 @@
+.form-node {
+  /* padding-left: 0; /* Root node, no extra indentation beyond App.css general */
+  border: 1px dashed #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.form-node .form-content h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.form-pages {
+  margin-top: 10px;
+}

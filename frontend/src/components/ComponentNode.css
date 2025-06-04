@@ -1,0 +1,20 @@
+.component-node {
+  /* Indentation already handled by general .component-node in App.css */
+  border-left: 2px solid #eee; /* More distinct left border for components */
+  padding: 4px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  background-color: #fafafa;
+}
+
+.component-node .component-content {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.component-children {
+  margin-left: 20px; /* Additional indentation for nested components */
+  border-left: 1px dashed #ccc;
+  padding-left: 5px;
+  margin-top: 3px;
+}

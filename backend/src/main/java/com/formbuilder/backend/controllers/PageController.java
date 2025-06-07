@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -53,7 +54,7 @@ public class PageController {
         Page existingPage = pageRepository.findById(pageId)
                 .orElseThrow(() -> new PageNotFoundException("Page not found with id: " + pageId));
 
-        existingPage.setPageNumber(pageDetails.getPageNumber());
+        existingPage.setName(pageDetails.getName());
         // existingPage.setComponents(pageDetails.getComponents()); // If updating components directly
 
         Page updatedPage = pageRepository.save(existingPage);
@@ -67,5 +68,28 @@ public class PageController {
         }
         pageRepository.deleteById(pageId); // orphanRemoval=true should handle components
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // ===== REORDER OPERATION (SIMPLIFIED - NO LONGER BASED ON PAGE NUMBERS) =====
+
+    @PutMapping("/forms/{formId}/pages/reorder")
+    public ResponseEntity<List<Page>> reorderPages(@PathVariable Long formId, @RequestBody Map<String, List<Long>> reorderData) {
+        if (!formRepository.existsById(formId)) {
+            throw new FormNotFoundException("Form not found with id: " + formId);
+        }
+
+        List<Long> pageIds = reorderData.get("pageIds");
+        if (pageIds == null || pageIds.isEmpty()) {
+            throw new IllegalArgumentException("pageIds array is required");
+        }
+
+        // Since pages now have names instead of numbers, we'll just return them in the requested order
+        // The actual ordering logic could be implemented with a separate orderIndex field if needed
+        List<Page> reorderedPages = pageIds.stream()
+                .map(id -> pageRepository.findById(id)
+                        .orElseThrow(() -> new PageNotFoundException("Page not found with id: " + id)))
+                .toList();
+
+        return new ResponseEntity<>(reorderedPages, HttpStatus.OK);
     }
 }

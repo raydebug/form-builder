@@ -39,13 +39,13 @@ class BackendApplicationTests {
         Form form = new Form("Test Form", "A form for testing purposes");
 
         // Create Page 1
-        Page page1 = new Page(1);
+        Page page1 = new Page("Personal Information");
         Component textInput = new Component("TEXT_INPUT", "Name", "{\"placeholder\": \"Enter your name\"}");
         page1.addComponent(textInput);
         form.addPage(page1);
 
         // Create Page 2
-        Page page2 = new Page(2);
+        Page page2 = new Page("Contact Details");
         Component checkboxGroup = new Component("CHECKBOX_GROUP", "Interests", "{\"options\": [\"Coding\", \"Reading\"]}");
         Component submitButton = new Component("BUTTON", "Submit", "{\"type\": \"submit\"}");
         page2.addComponent(checkboxGroup);
@@ -71,7 +71,9 @@ class BackendApplicationTests {
         assertThat(retrievedForm.getName()).isEqualTo("Test Form");
         assertThat(retrievedForm.getPages()).hasSize(2);
 
-        Page retrievedPage1 = retrievedForm.getPages().stream().filter(p -> p.getPageNumber() == 1).findFirst().orElse(null);
+        Page retrievedPage1 = retrievedForm.getPages().stream()
+                .filter(p -> "Personal Information".equals(p.getName()))
+                .findFirst().orElse(null);
         assertThat(retrievedPage1).isNotNull();
         assertThat(retrievedPage1.getComponents()).hasSize(2); // textInput and parentComponent
 
@@ -93,7 +95,9 @@ class BackendApplicationTests {
         assertThat(retrievedStreetInput.getLabel()).isEqualTo("Street");
 
 
-        Page retrievedPage2 = retrievedForm.getPages().stream().filter(p -> p.getPageNumber() == 2).findFirst().orElse(null);
+        Page retrievedPage2 = retrievedForm.getPages().stream()
+                .filter(p -> "Contact Details".equals(p.getName()))
+                .findFirst().orElse(null);
         assertThat(retrievedPage2).isNotNull();
         assertThat(retrievedPage2.getComponents()).hasSize(2); // checkboxGroup and submitButton
     }

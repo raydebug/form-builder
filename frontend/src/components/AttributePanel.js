@@ -75,8 +75,8 @@ const AttributePanel = ({ node, onSave }) => {
   const renderPageFields = () => (
     <>
       <div className="form-field">
-        <label htmlFor="pageNumber">Page Number:</label>
-        <input type="number" id="pageNumber" name="pageNumber" value={editData.pageNumber || ''} onChange={handleChange} />
+        <label htmlFor="name">Page Name:</label>
+        <input type="text" id="name" name="name" value={editData.name || ''} onChange={handleChange} />
       </div>
       {/* Add other page-specific fields if any */}
     </>

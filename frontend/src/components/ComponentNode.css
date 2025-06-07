@@ -1,20 +1,328 @@
+.component-container {
+  margin-bottom: 4px;
+}
+
 .component-node {
-  /* Indentation already handled by general .component-node in App.css */
-  border-left: 2px solid #eee; /* More distinct left border for components */
-  padding: 4px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 2px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
 }
 
-.component-node .component-content {
-  font-size: 0.9em;
-  color: #777;
+/* Container vs Field Component Styling */
+.component-node.container-component {
+  background-color: #f8f9fa;
+  border-left: 4px solid #6f42c1; /* Purple border for containers */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.component-children {
-  margin-left: 20px; /* Additional indentation for nested components */
-  border-left: 1px dashed #ccc;
-  padding-left: 5px;
-  margin-top: 3px;
+.component-node.field-component {
+  background-color: #fefefe;
+  border-left: 4px solid #28a745; /* Green border for fields */
+}
+
+.component-node:hover {
+  background-color: #e6f3ff;
+  border-color: #007bff;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+.component-node.selected-node {
+  background-color: #ddeeff;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Node content layout */
+.node-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.node-icon {
+  font-size: 14px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.node-label {
+  font-weight: 500;
+  color: #333;
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Component type badge */
+.component-type-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Component type specific colors */
+.component-type-badge[data-type="TEXT_INPUT"] { background-color: #28a745; }
+.component-type-badge[data-type="EMAIL_INPUT"] { background-color: #17a2b8; }
+.component-type-badge[data-type="PASSWORD_INPUT"] { background-color: #fd7e14; }
+.component-type-badge[data-type="TEXT_AREA"] { background-color: #ffc107; color: #333; }
+.component-type-badge[data-type="NUMBER_INPUT"] { background-color: #20c997; }
+.component-type-badge[data-type="DATE_INPUT"] { background-color: #e83e8c; }
+.component-type-badge[data-type="CHECKBOX"] { background-color: #fd7e14; }
+.component-type-badge[data-type="RADIO"] { background-color: #e83e8c; }
+.component-type-badge[data-type="SELECT"] { background-color: #6610f2; }
+.component-type-badge[data-type="FILE_INPUT"] { background-color: #dc3545; }
+.component-type-badge[data-type="BUTTON"] { background-color: #343a40; }
+.component-type-badge[data-type="SUBMIT_BUTTON"] { background-color: #007bff; }
+
+/* Container component types */
+.component-type-badge[data-type="PANEL"] { background-color: #6f42c1; }
+.component-type-badge[data-type="CONTAINER"] { background-color: #495057; }
+.component-type-badge[data-type="FIELDSET"] { background-color: #6c757d; }
+.component-type-badge[data-type="GROUP"] { background-color: #343a40; }
+.component-type-badge[data-type="SECTION"] { background-color: #868e96; }
+
+/* Expand/collapse buttons */
+.expand-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.expand-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Action buttons */
+.node-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.component-node:hover .node-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+}
+
+.action-btn:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.action-btn:disabled:hover {
+  background-color: transparent;
+}
+
+.add-btn:hover { background-color: rgba(40, 167, 69, 0.2); }
+.delete-btn:hover { background-color: rgba(220, 53, 69, 0.2); }
+.move-up-btn:hover, .move-down-btn:hover { background-color: rgba(255, 193, 7, 0.2); }
+
+/* Child components */
+.child-components {
+  margin-top: 4px;
+  border-left: 2px dashed #dee2e6;
+  margin-left: 8px;
+  padding-left: 8px;
+}
+
+/* Nested add forms */
+.nested-add-form {
+  margin: 8px 0;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nested-form-content h5 {
+  margin: 0 0 12px 0;
+  color: #495057;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nested-form-content select,
+.nested-form-content input,
+.nested-form-content textarea {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: border-color 0.2s ease;
+}
+
+.nested-form-content select:focus,
+.nested-form-content input:focus,
+.nested-form-content textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.nested-form-content optgroup {
+  font-weight: 600;
+  color: #495057;
+}
+
+.nested-form-content option {
+  font-weight: normal;
+  color: #212529;
+}
+
+.nested-form-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+/* Empty Container State */
+.empty-container-message {
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: #f8f9fa;
+  border: 1px dashed #dee2e6;
+  border-radius: 4px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.empty-container-message span {
+  display: block;
+  margin-bottom: 6px;
+  font-style: italic;
+}
+
+.add-first-child-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-first-child-btn:hover {
+  background-color: #218838;
+}
+
+/* Depth-based styling */
+.component-container.depth-0 { margin-left: 0; }
+.component-container.depth-1 { margin-left: 16px; }
+.component-container.depth-2 { margin-left: 32px; }
+.component-container.depth-3 { margin-left: 48px; }
+
+/* Visual hierarchy indicators */
+.depth-1 .component-node { opacity: 0.95; }
+.depth-2 .component-node { opacity: 0.9; }
+.depth-3 .component-node { opacity: 0.85; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .component-node {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  
+  .component-type-badge {
+    font-size: 9px;
+    padding: 1px 4px;
+    min-width: 50px;
+  }
+  
+  .action-btn {
+    font-size: 10px;
+    min-width: 20px;
+    height: 20px;
+  }
+  
+  .nested-add-form {
+    padding: 8px;
+  }
+  
+  .nested-form-content select,
+  .nested-form-content input,
+  .nested-form-content textarea {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
 }

@@ -1,6 +1,7 @@
 package com.formbuilder.backend.models;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class Form {
     private String description;
 
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("form-pages")
     private List<Page> pages = new ArrayList<>();
 
     // Constructors

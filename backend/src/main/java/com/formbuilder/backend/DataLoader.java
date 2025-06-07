@@ -8,9 +8,8 @@ import com.formbuilder.backend.repositories.FormRepository;
 import com.formbuilder.backend.repositories.PageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component; // Corrected annotation
 
-@Component // Corrected annotation
+@org.springframework.stereotype.Component // Use fully qualified name to avoid conflict
 public class DataLoader implements CommandLineRunner {
 
     @Autowired
@@ -33,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
             // For simplicity with cascading saves, let's add children before final top-level save.
 
             Page page1 = new Page();
-            page1.setPageNumber(1);
+            page1.setName("Personal Information");
             // form1.addPage(page1); // Associate page with form
 
             Component comp1 = new Component();
@@ -85,7 +84,7 @@ public class DataLoader implements CommandLineRunner {
 
             // Verify (optional logging)
             System.out.println("DataLoader: Test Form 1 created with ID: " + form1.getId());
-            System.out.println("DataLoader: Page 1 created with ID: " + page1.getId() + " for Form ID: " + form1.getId());
+            System.out.println("DataLoader: Page '" + page1.getName() + "' created with ID: " + page1.getId() + " for Form ID: " + form1.getId());
             System.out.println("DataLoader: Component 'First Name' created with ID: " + comp1.getId() + " for Page ID: " + page1.getId());
             System.out.println("DataLoader: Component 'Email' created with ID: " + childComp.getId() + " nested under Component ID: " + parentComp.getId());
         }

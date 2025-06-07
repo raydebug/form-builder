@@ -7,10 +7,9 @@
 
 .App-header {
   background-color: #282c34;
-  padding: 15px 20px; /* Slightly reduced padding */
+  padding: 15px 20px;
   color: white;
   text-align: center;
-  /* margin-bottom: 20px; */ /* Removed margin, handled by flex layout */
 }
 
 .App-header h1 {
@@ -20,35 +19,45 @@
 
 .App-content-wrapper {
   display: flex;
-  flex-grow: 1; /* Allows this wrapper to fill available space */
-  overflow-y: hidden; /* Prevent double scrollbars if panels manage their own */
+  flex-grow: 1;
+  overflow-y: hidden;
 }
 
+/* LEFT PANEL - Form Structure Tree */
 .App-sidebar {
-  width: 200px; /* Fixed width for form list/navigation */
+  width: 280px; /* Increased width for tree view */
   padding: 15px;
-  background-color: #f0f0f0;
+  background-color: #f8f9fa;
   border-right: 1px solid #ddd;
   overflow-y: auto;
 }
 
 .App-sidebar h4 {
   margin-top: 0;
+  color: #333;
+  font-size: 1.1em;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
 }
 
+/* CENTER PANEL - Page Editor */
 .App-main-content {
-  flex: 2; /* Takes more space */
-  padding: 15px;
-  overflow-y: auto; /* Scroll for form tree if it's long */
+  flex: 3; /* Takes more space for the editor */
+  padding: 0;
+  overflow-y: auto;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  background-color: #ffffff;
 }
 
+/* RIGHT PANEL - Attributes Panel */
 .App-attribute-panel {
-  flex: 1; /* Takes less space than main content */
+  flex: 1; /* Takes less space */
+  min-width: 300px; /* Minimum width for attribute editing */
   padding: 15px;
   background-color: #fdfdfd;
-  overflow-y: auto; /* Scroll for attribute panel if content is long */
+  overflow-y: auto;
 }
 
 .panel-placeholder {
@@ -58,14 +67,14 @@
   height: 100%;
   color: #777;
   font-style: italic;
+  text-align: center;
 }
-
 
 .App-loading, .App-error {
   text-align: center;
   font-size: 1.2em;
   padding: 30px;
-  width: 100%; /* Ensure it takes full width if content wrapper is flex */
+  width: 100%;
 }
 
 .App-error {
@@ -73,43 +82,101 @@
 }
 
 .App-footer {
-  /* margin-top: 20px; */ /* Footer is now part of the main flex column */
   padding: 10px;
   background-color: #f0f0f0;
   border-top: 1px solid #ddd;
   text-align: center;
   font-size: 0.9em;
-  flex-shrink: 0; /* Prevent footer from shrinking */
+  flex-shrink: 0;
 }
 
-/* General Node Styling - can be overridden by specific node CSS */
-/* These are now more specific to be inside .App-main-content */
-.App-main-content .form-node,
-.App-main-content .page-node,
-.App-main-content .component-node {
-  padding: 5px;
-  margin-left: 20px; /* Basic indentation for hierarchy */
+/* Form Tree Styling for Left Panel */
+.App-sidebar .form-node,
+.App-sidebar .page-node,
+.App-sidebar .component-node {
+  padding: 6px 8px;
+  margin: 2px 0;
+  margin-left: 16px; /* Indentation for hierarchy */
   cursor: pointer;
-  border-left: 2px solid transparent; /* For hover/selection indication */
-  transition: background-color 0.2s ease-in-out, border-left-color 0.2s ease-in-out;
+  border-radius: 4px;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.9em;
 }
 
-.App-main-content .form-node {
-  margin-left: 0; /* Root form node doesn't need initial margin */
+.App-sidebar .form-node {
+  margin-left: 0; /* Root form node */
+  font-weight: 600;
+  background-color: #e9ecef;
+  border-left-color: #6c757d;
 }
 
-
-.App-main-content .form-node:hover,
-.App-main-content .page-node:hover,
-.App-main-content .component-node:hover {
-  background-color: #eef8ff;
+.App-sidebar .page-node {
+  background-color: #f8f9fa;
   border-left-color: #007bff;
 }
 
-.App-main-content .selected-node {
-  background-color: #ddeeff !important; /* Light blue for selected */
-  border-left-color: #0056b3 !important; /* Darker blue for selected */
+.App-sidebar .component-node {
+  background-color: #fff;
+  border-left-color: #28a745;
+}
+
+.App-sidebar .form-node:hover,
+.App-sidebar .page-node:hover,
+.App-sidebar .component-node:hover {
+  background-color: #e6f2ff;
+  transform: translateX(2px);
+}
+
+.App-sidebar .selected-node {
+  background-color: #ddeeff !important;
+  border-left-color: #0056b3 !important;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0, 86, 179, 0.2);
+}
+
+/* Component type indicators in tree */
+.App-sidebar .component-node::before {
+  content: "⚬";
+  color: #28a745;
+  margin-right: 4px;
   font-weight: bold;
 }
 
-/* Specific node styling will be in their respective CSS files */
+.App-sidebar .page-node::before {
+  content: "📄";
+  margin-right: 4px;
+}
+
+.App-sidebar .form-node::before {
+  content: "📋";
+  margin-right: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .App-sidebar {
+    width: 250px;
+  }
+  
+  .App-attribute-panel {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 900px) {
+  .App-content-wrapper {
+    flex-direction: column;
+  }
+  
+  .App-sidebar,
+  .App-attribute-panel {
+    width: 100%;
+    max-height: 250px;
+  }
+  
+  .App-main-content {
+    flex: 1;
+    border: none;
+  }
+}

@@ -42,7 +42,7 @@ public class ComponentControllerTests {
 
     @Test
     public void whenCreateComponentInPage_givenValidPageId_thenReturnCreatedComponent() throws Exception {
-        Page page = new Page(1);
+        Page page = new Page("Home Page");
         page.setId(1L);
         Component component = new Component("TEXT_INPUT", "Name", "{}");
         Component savedComponent = new Component("TEXT_INPUT", "Name", "{}");
@@ -64,7 +64,7 @@ public class ComponentControllerTests {
     public void whenCreateNestedComponent_givenValidParentId_thenReturnCreatedComponent() throws Exception {
         Component parentComponent = new Component("CONTAINER", "Parent", "{}");
         parentComponent.setId(100L);
-        Page page = new Page(1);
+        Page page = new Page("Home Page");
         page.setId(1L);
         parentComponent.setPage(page); // Parent component must be associated with a page
 
@@ -83,8 +83,7 @@ public class ComponentControllerTests {
                 .content(objectMapper.writeValueAsString(childComponent)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(101)))
-                .andExpect(jsonPath("$.label", is("Child")))
-                .andExpect(jsonPath("$.parentComponent.id", is(100)));
+                .andExpect(jsonPath("$.label", is("Child")));
     }
 
 

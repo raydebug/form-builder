@@ -23,6 +23,7 @@ public class Component {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id")
+    @JsonBackReference("page-components")
     private Page page;
 
     @ManyToOne(fetch = FetchType.LAZY)

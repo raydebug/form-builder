@@ -44,8 +44,8 @@ public class PageControllerTests {
     public void whenCreatePage_givenValidFormId_thenReturnCreatedPage() throws Exception {
         Form form = new Form("Test Form", "Form Description");
         form.setId(1L);
-        Page page = new Page(1);
-        Page savedPage = new Page(1);
+        Page page = new Page("Home Page");
+        Page savedPage = new Page("Home Page");
         savedPage.setId(10L);
         savedPage.setForm(form);
 
@@ -57,12 +57,12 @@ public class PageControllerTests {
                 .content(objectMapper.writeValueAsString(page)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(10)))
-                .andExpect(jsonPath("$.pageNumber", is(1)));
+                .andExpect(jsonPath("$.name", is("Home Page")));
     }
 
     @Test
     public void whenCreatePage_givenInvalidFormId_thenReturnNotFound() throws Exception {
-        Page page = new Page(1);
+        Page page = new Page("Home Page");
         given(formRepository.findById(99L)).willReturn(Optional.empty());
 
         mockMvc.perform(post("/api/forms/99/pages")
@@ -76,10 +76,10 @@ public class PageControllerTests {
     public void whenGetAllPagesForForm_givenValidFormId_thenReturnPageList() throws Exception {
         Form form = new Form();
         form.setId(1L);
-        Page page1 = new Page(1);
+        Page page1 = new Page("Home Page");
         page1.setId(10L);
         page1.setForm(form);
-        Page page2 = new Page(2);
+        Page page2 = new Page("Contact Page");
         page2.setId(11L);
         page2.setForm(form);
         List<Page> pages = Arrays.asList(page1, page2);
@@ -91,8 +91,8 @@ public class PageControllerTests {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].pageNumber", is(1)))
-                .andExpect(jsonPath("$[1].pageNumber", is(2)));
+                .andExpect(jsonPath("$[0].name", is("Home Page")))
+                .andExpect(jsonPath("$[1].name", is("Contact Page")));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class PageControllerTests {
 
     @Test
     public void whenGetPageById_givenExistingId_thenReturnPage() throws Exception {
-        Page page = new Page(1);
+        Page page = new Page("Home Page");
         page.setId(10L);
         given(pageRepository.findById(10L)).willReturn(Optional.of(page));
 
@@ -128,10 +128,10 @@ public class PageControllerTests {
 
     @Test
     public void whenUpdatePage_givenExistingId_thenReturnUpdatedPage() throws Exception {
-        Page existingPage = new Page(1);
+        Page existingPage = new Page("Home Page");
         existingPage.setId(10L);
-        Page pageDetails = new Page(2); // updated page number
-        Page updatedPage = new Page(2);
+        Page pageDetails = new Page("Updated Home Page"); // updated page name
+        Page updatedPage = new Page("Updated Home Page");
         updatedPage.setId(10L);
 
         given(pageRepository.findById(10L)).willReturn(Optional.of(existingPage));
@@ -141,7 +141,7 @@ public class PageControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pageDetails)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.pageNumber", is(2)));
+                .andExpect(jsonPath("$.name", is("Updated Home Page")));
     }
 
     @Test

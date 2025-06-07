@@ -1,6 +1,8 @@
 package com.formbuilder.backend.models;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,21 +14,23 @@ public class Page {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer pageNumber;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
+    @JsonBackReference("form-pages")
     private Form form;
 
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("page-components")
     private List<Component> components = new ArrayList<>();
 
     // Constructors
     public Page() {
     }
 
-    public Page(Integer pageNumber) {
-        this.pageNumber = pageNumber;
+    public Page(String name) {
+        this.name = name;
     }
 
     // Getters and Setters
@@ -38,12 +42,12 @@ public class Page {
         this.id = id;
     }
 
-    public Integer getPageNumber() {
-        return pageNumber;
+    public String getName() {
+        return name;
     }
 
-    public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Form getForm() {

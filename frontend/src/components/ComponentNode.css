@@ -179,18 +179,17 @@
 
 /* Nested add forms */
 .nested-add-form {
-  margin: 8px 0;
+  margin: 8px 0 8px 20px;
   padding: 12px;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: #f8fbff;
+  border: 2px solid #2188b5;
   border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(33, 136, 181, 0.1);
 }
 
 .nested-form-content h5 {
-  margin: 0 0 12px 0;
-  color: #495057;
-  font-size: 14px;
+  margin: 0 0 8px 0;
+  color: #2188b5;
   font-weight: 600;
 }
 
@@ -335,4 +334,53 @@
     padding: 6px 8px;
     font-size: 12px;
   }
+}
+
+/* Add button specific styles */
+.add-subcomponent-btn {
+  background-color: rgba(33, 136, 181, 0.1) !important;
+  border: 1px solid rgba(33, 136, 181, 0.3);
+}
+
+.add-subcomponent-btn:hover {
+  background-color: rgba(33, 136, 181, 0.2) !important;
+  transform: scale(1.1);
+}
+
+.add-field-btn {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.add-field-btn:hover {
+  background-color: rgba(40, 167, 69, 0.2) !important;
+  transform: scale(1.1);
+}
+
+/* Form styles for field form */
+.field-add-form {
+  margin: 8px 0 8px 20px;
+  padding: 12px;
+  background-color: #f8fffe;
+  border: 2px solid #28a745;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.1);
+}
+
+.field-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-form-content h5 {
+  margin: 0 0 8px 0;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.field-form-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }

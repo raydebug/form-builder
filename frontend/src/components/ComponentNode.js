@@ -13,7 +13,13 @@ const ComponentNode = ({
   siblingComponents = [] 
 }) => {
   const [showNestedForm, setShowNestedForm] = useState(false);
+  const [showFieldForm, setShowFieldForm] = useState(false);
   const [newComponentData, setNewComponentData] = useState({
+    componentType: 'TEXT_INPUT',
+    label: '',
+    attributes: '{}'
+  });
+  const [newFieldData, setNewFieldData] = useState({
     componentType: 'TEXT_INPUT',
     label: '',
     attributes: '{}'
@@ -29,24 +35,6 @@ const ComponentNode = ({
     'CARD',
     'TAB_PANEL',
     'ACCORDION'
-  ];
-
-  // Define which component types are fields (leaf nodes)
-  const FIELD_COMPONENT_TYPES = [
-    'TEXT_INPUT',
-    'EMAIL_INPUT', 
-    'PASSWORD_INPUT',
-    'TEXT_AREA',
-    'CHECKBOX',
-    'RADIO',
-    'SELECT',
-    'NUMBER_INPUT',
-    'DATE_INPUT',
-    'TIME_INPUT',
-    'FILE_INPUT',
-    'HIDDEN_INPUT',
-    'BUTTON',
-    'SUBMIT_BUTTON'
   ];
 
   const isContainerComponent = CONTAINER_COMPONENT_TYPES.includes(component.componentType);
@@ -74,8 +62,25 @@ const ComponentNode = ({
       return;
     }
     setShowNestedForm(true);
+    setShowFieldForm(false); // Close field form if open
     setNewComponentData({
-      componentType: 'TEXT_INPUT',
+      componentType: 'PANEL', // Default to container type
+      label: '',
+      attributes: '{}'
+    });
+  };
+
+  // Field creation handlers
+  const handleShowFieldForm = (e) => {
+    e.stopPropagation();
+    if (!isContainerComponent) {
+      alert(`${component.componentType} is a field component and cannot contain child components.`);
+      return;
+    }
+    setShowFieldForm(true);
+    setShowNestedForm(false); // Close nested form if open
+    setNewFieldData({
+      componentType: 'TEXT_INPUT', // Default to field type
       label: '',
       attributes: '{}'
     });
@@ -84,6 +89,15 @@ const ComponentNode = ({
   const handleCancelNested = () => {
     setShowNestedForm(false);
     setNewComponentData({
+      componentType: 'PANEL',
+      label: '',
+      attributes: '{}'
+    });
+  };
+
+  const handleCancelField = () => {
+    setShowFieldForm(false);
+    setNewFieldData({
       componentType: 'TEXT_INPUT',
       label: '',
       attributes: '{}'
@@ -97,13 +111,31 @@ const ComponentNode = ({
         await onCreateComponent(component.id, newComponentData, 'nested');
         setShowNestedForm(false);
         setNewComponentData({
-          componentType: 'TEXT_INPUT',
+          componentType: 'PANEL',
           label: '',
           attributes: '{}'
         });
       } catch (error) {
         console.error('Error creating nested component:', error);
         alert('Failed to create nested component: ' + error.message);
+      }
+    }
+  };
+
+  const handleSubmitField = async (e) => {
+    e.preventDefault();
+    if (newFieldData.label && onCreateComponent) {
+      try {
+        await onCreateComponent(component.id, newFieldData, 'field');
+        setShowFieldForm(false);
+        setNewFieldData({
+          componentType: 'TEXT_INPUT',
+          label: '',
+          attributes: '{}'
+        });
+      } catch (error) {
+        console.error('Error creating field component:', error);
+        alert('Failed to create field component: ' + error.message);
       }
     }
   };
@@ -156,14 +188,27 @@ const ComponentNode = ({
           </span>
           
           <div className="node-actions" onClick={(e) => e.stopPropagation()}>
-            {/* Add button - only for container components */}
+            {/* Add Sub-Component button - only for container components */}
             {isContainerComponent && (
               <button
-                className="action-btn add-btn"
+                className="action-btn add-subcomponent-btn"
                 onClick={handleShowNestedForm}
-                title={`Add Child Component to ${component.label}`}
+                title={`Add Sub-Component to ${component.label}`}
+                data-testid="add-subcomponent-btn"
               >
-                ➕
+                📦➕
+              </button>
+            )}
+            
+            {/* Add Field button - only for container components */}
+            {isContainerComponent && (
+              <button
+                className="action-btn add-field-btn"
+                onClick={handleShowFieldForm}
+                title={`Add Field to ${component.label}`}
+                data-testid="add-field-btn"
+              >
+                ⚬➕
               </button>
             )}
             
@@ -201,37 +246,28 @@ const ComponentNode = ({
       {showNestedForm && isContainerComponent && (
         <form className="nested-add-form" onSubmit={handleSubmitNested}>
           <div className="nested-form-content">
-            <h5>Add Child Component to {component.label}</h5>
+            <h5>Add Sub-Component to {component.label}</h5>
             <select
               value={newComponentData.componentType}
               onChange={(e) => setNewComponentData(prev => ({ ...prev, componentType: e.target.value }))}
               required
             >
-              <optgroup label="Field Components">
-                <option value="TEXT_INPUT">Text Input</option>
-                <option value="EMAIL_INPUT">Email Input</option>
-                <option value="PASSWORD_INPUT">Password Input</option>
-                <option value="TEXT_AREA">Text Area</option>
-                <option value="NUMBER_INPUT">Number Input</option>
-                <option value="DATE_INPUT">Date Input</option>
-                <option value="CHECKBOX">Checkbox</option>
-                <option value="RADIO">Radio Button</option>
-                <option value="SELECT">Dropdown Select</option>
-                <option value="FILE_INPUT">File Upload</option>
-                <option value="BUTTON">Button</option>
-              </optgroup>
               <optgroup label="Container Components">
                 <option value="PANEL">Panel</option>
                 <option value="FIELDSET">Fieldset</option>
                 <option value="GROUP">Group</option>
                 <option value="SECTION">Section</option>
+                <option value="CONTAINER">Container</option>
+                <option value="CARD">Card</option>
+                <option value="TAB_PANEL">Tab Panel</option>
+                <option value="ACCORDION">Accordion</option>
               </optgroup>
             </select>
             <input
               type="text"
               value={newComponentData.label}
               onChange={(e) => setNewComponentData(prev => ({ ...prev, label: e.target.value }))}
-              placeholder="Component label"
+              placeholder="Sub-component label"
               required
               autoFocus
             />
@@ -242,8 +278,57 @@ const ComponentNode = ({
               rows="3"
             />
             <div className="nested-form-buttons">
-              <button type="submit" className="btn-primary">Add Component</button>
+              <button type="submit" className="btn-primary">Add Sub-Component</button>
               <button type="button" className="btn-secondary" onClick={handleCancelNested}>Cancel</button>
+            </div>
+          </div>
+        </form>
+      )}
+
+      {/* Field Form - only shown for container components */}
+      {showFieldForm && isContainerComponent && (
+        <form className="field-add-form" onSubmit={handleSubmitField}>
+          <div className="field-form-content">
+            <h5>Add Field to {component.label}</h5>
+            <select
+              value={newFieldData.componentType}
+              onChange={(e) => setNewFieldData(prev => ({ ...prev, componentType: e.target.value }))}
+              required
+            >
+              <optgroup label="Field Components">
+                <option value="TEXT_INPUT">Text Input</option>
+                <option value="EMAIL_INPUT">Email Input</option>
+                <option value="PASSWORD_INPUT">Password Input</option>
+                <option value="TEXT_AREA">Text Area</option>
+                <option value="NUMBER_INPUT">Number Input</option>
+                <option value="DATE_INPUT">Date Input</option>
+                <option value="TIME_INPUT">Time Input</option>
+                <option value="CHECKBOX">Checkbox</option>
+                <option value="RADIO">Radio Button</option>
+                <option value="SELECT">Dropdown Select</option>
+                <option value="FILE_INPUT">File Upload</option>
+                <option value="HIDDEN_INPUT">Hidden Input</option>
+                <option value="BUTTON">Button</option>
+                <option value="SUBMIT_BUTTON">Submit Button</option>
+              </optgroup>
+            </select>
+            <input
+              type="text"
+              value={newFieldData.label}
+              onChange={(e) => setNewFieldData(prev => ({ ...prev, label: e.target.value }))}
+              placeholder="Field label"
+              required
+              autoFocus
+            />
+            <textarea
+              value={newFieldData.attributes}
+              onChange={(e) => setNewFieldData(prev => ({ ...prev, attributes: e.target.value }))}
+              placeholder="Field attributes (JSON)"
+              rows="3"
+            />
+            <div className="field-form-buttons">
+              <button type="submit" className="btn-primary">Add Field</button>
+              <button type="button" className="btn-secondary" onClick={handleCancelField}>Cancel</button>
             </div>
           </div>
         </form>

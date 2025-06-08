@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Builder Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-info { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .status { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Form Builder Debug Tool</h1>
+    
+    <div class="debug-info">
+        <h3>Quick Links</h3>
+        <p><a href="http://localhost:3000" target="_blank">Frontend (Port 3000)</a></p>
+        <p><a href="http://localhost:8080/api/forms" target="_blank">Backend API Test</a></p>
+    </div>
+
+    <div class="debug-info">
+        <h3>Instructions</h3>
+        <ol>
+            <li>Ensure both backend (port 8080) and frontend (port 3000) are running</li>
+            <li>Open the frontend link above</li>
+            <li>Look for container components (📦 PANEL, FIELDSET, etc.)</li>
+            <li>Hover over container components to see dual add buttons:
+                <ul>
+                    <li><strong>📦➕ Add Sub-Component</strong> (Blue theme)</li>
+                    <li><strong>⚬➕ Add Field</strong> (Green theme)</li>
+                </ul>
+            </li>
+            <li>Field components (⚬ TEXT_INPUT, EMAIL_INPUT, etc.) should NOT show add buttons</li>
+        </ol>
+    </div>
+
+    <div class="debug-info">
+        <h3>Common Issues</h3>
+        <ul>
+            <li><strong>Browser Cache:</strong> Try hard refresh (Ctrl+F5 or Cmd+Shift+R)</li>
+            <li><strong>Multiple Servers:</strong> Check if multiple React servers are running</li>
+            <li><strong>Component Visibility:</strong> Buttons only appear on hover for container components</li>
+            <li><strong>Data Issues:</strong> Ensure sample data loaded properly</li>
+        </ul>
+    </div>
+
+    <script>
+        // Test backend connectivity
+        fetch('http://localhost:8080/api/forms')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Backend API Response:', data);
+                document.body.innerHTML += '<div class="debug-info"><span class="status">✅ Backend API Working</span></div>';
+            })
+            .catch(error => {
+                console.error('Backend API Error:', error);
+                document.body.innerHTML += '<div class="debug-info"><span class="error">❌ Backend API Error: ' + error.message + '</span></div>';
+            });
+
+        // Test frontend connectivity
+        fetch('http://localhost:3000')
+            .then(response => {
+                console.log('Frontend Response Status:', response.status);
+                document.body.innerHTML += '<div class="debug-info"><span class="status">✅ Frontend Server Working</span></div>';
+            })
+            .catch(error => {
+                console.error('Frontend Error:', error);
+                document.body.innerHTML += '<div class="debug-info"><span class="error">❌ Frontend Server Error: ' + error.message + '</span></div>';
+            });
+    </script>
+</body>
+</html> 

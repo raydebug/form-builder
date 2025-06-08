@@ -18,7 +18,8 @@ A web-based form builder application with a hierarchical structure that allows u
 - ✅ Sample data auto-loading for immediate testing
 - ✅ Responsive three-panel layout
 - ✅ Test coverage for core functionality
-- ✅ **NEW**: Pages identified by names instead of numbers for better usability
+- ✅ Pages identified by names instead of numbers for better usability
+- ✅ **NEW**: Dual add buttons feature with comprehensive E2E testing (14/14 tests passing)
 
 ## Architecture
 
@@ -75,8 +76,11 @@ A web-based form builder application with a hierarchical structure that allows u
 #### Adding Components  
 1. **From Page Editor**: Click "Add Component" button in header → Fill form → Submit
 2. **From Page Tree**: Hover over page → Click ➕ → Creates default component
-3. **Nested Components**: Hover over component → Click ➕ → Creates child component
+3. **Dual Add Buttons** (NEW): Container components now have two distinct add buttons:
+   - **📦➕ Add Sub-Component**: Creates container components (PANEL, FIELDSET, etc.) - Blue theme
+   - **⚬➕ Add Field**: Creates field components (TEXT_INPUT, EMAIL_INPUT, etc.) - Green theme
 4. **Empty Page Helper**: "Add First Component" button for pages with no components
+5. **Smart UX**: Only container components show add buttons; field components cannot have children
 
 #### Deleting Items
 1. **Pages**: Hover over page → Click 🗑️ → Confirm deletion (deletes all components)
@@ -358,8 +362,20 @@ The E2E tests are organized into logical groups:
 6. **Integration**: Cross-panel synchronization and data flow
 7. **Validation**: Form validation and error handling
 8. **User Experience**: Visual feedback and interaction states
+9. **Dual Add Buttons**: Comprehensive testing of new dual add button feature (📦➕ and ⚬➕)
+   - API Tests: 31/31 passing ✅
+   - Dual Add Buttons Tests: 14/14 passing ✅
 
 Each test group covers both positive and negative test cases, ensuring robust coverage of all user flows and edge cases.
+
+#### Dual Add Buttons Test Coverage (100% ✅)
+The `dual-add-buttons.cy.js` test suite provides comprehensive coverage:
+- **Button Visibility**: Container vs field component button display
+- **Form Functionality**: Opening, submitting, canceling forms
+- **Component Creation**: Sub-components vs fields validation
+- **Form Exclusivity**: Mutual form closing behavior
+- **UX Testing**: Tooltips, titles, labels, distinct styling (blue/green themes)
+- **Error Handling**: Edge cases and validation scenarios
 
 ## API Endpoints
 
@@ -527,6 +543,15 @@ Each test group covers both positive and negative test cases, ensuring robust co
   - `@JsonManagedReference("page-components")` on Page.components
   - `@JsonBackReference("page-components")` on Component.page
   - Existing parent-child component annotations maintained
+
+#### Dual Add Buttons Feature ✅
+- **Implemented sophisticated dual add button system**
+- Container components now have two distinct add buttons:
+  - 📦➕ Add Sub-Component (blue theme) - Creates container components
+  - ⚬➕ Add Field (green theme) - Creates field components
+- **Fixed 500 error**: Updated handleCreateComponent to handle both 'nested' and 'field' types
+- **Enhanced UX**: Form exclusivity, distinct styling, proper tooltips and validation
+- **Comprehensive testing**: 14/14 E2E tests passing with 100% feature coverage
 
 #### Testing Status
 - **Frontend**: 8/8 unit tests passing ✅

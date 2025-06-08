@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ComponentNode from './ComponentNode';
 import './FormTree.css';
 
@@ -6,6 +6,16 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
   const [expandedPages, setExpandedPages] = useState({});
   const [showAddPageForm, setShowAddPageForm] = useState(false);
   const [newPageName, setNewPageName] = useState('');
+
+  // Auto-expand first page when form loads
+  useEffect(() => {
+    if (form && form.pages && form.pages.length > 0) {
+      setExpandedPages(prev => ({
+        ...prev,
+        [form.pages[0].id]: true
+      }));
+    }
+  }, [form]);
 
   if (!form) {
     return <div className="form-tree-placeholder">No form data available.</div>;
@@ -82,8 +92,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
         onClick={handleFormSelect}
       >
         <div className="node-content">
-          <span className="node-icon">📋</span>
-          <span className="node-label">{form.name}</span>
+          <span className="node-text">📋 {form.name}</span>
           <div className="node-actions" onClick={(e) => e.stopPropagation()}>
             <button
               className="action-btn add-btn"
@@ -139,8 +148,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                 >
                   {isExpanded ? '📂' : '📁'}
                 </button>
-                <span className="node-icon">📄</span>
-                <span className="node-label">{page.name}</span>
+                <span className="node-text">📄 {page.name}</span>
                 <div className="node-actions" onClick={(e) => e.stopPropagation()}>
                   <button
                     className="action-btn add-btn"

@@ -148,10 +148,9 @@ const ComponentNode = ({
         data-component-type={component.componentType}
       >
         <div className="node-content">
-          <span className="node-icon">
-            {isContainerComponent ? '📦' : '⚬'}
+          <span className="node-text">
+            {isContainerComponent ? '📦' : '⚬'} {component.label}
           </span>
-          <span className="node-label">{component.label}</span>
           <span className="component-type-badge" data-type={component.componentType}>
             {component.componentType}
           </span>

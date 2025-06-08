@@ -63,6 +63,16 @@
   white-space: nowrap;
 }
 
+.node-text {
+  font-weight: 500;
+  color: #333;
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Component type badge */
 .component-type-badge {
   font-size: 10px;

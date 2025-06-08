@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Form Builder</title>
+</head>
+<body>
+    <h1>Debug Form Builder API</h1>
+    <div id="output"></div>
+    
+    <script>
+        async function testAPI() {
+            const output = document.getElementById('output');
+            
+            try {
+                // Test API connection
+                output.innerHTML = '<p>Testing API connection...</p>';
+                
+                const response = await fetch('http://localhost:8080/api/forms/1');
+                const data = await response.json();
+                
+                output.innerHTML = '<h2>API Response:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                // Test if we have the expected data
+                if (data.name === 'Test Form 1') {
+                    output.innerHTML += '<p style="color: green;">✅ Form name is correct: ' + data.name + '</p>';
+                } else {
+                    output.innerHTML += '<p style="color: red;">❌ Form name unexpected: ' + data.name + '</p>';
+                }
+                
+                if (data.pages && data.pages.length > 0) {
+                    output.innerHTML += '<p style="color: green;">✅ Pages found: ' + data.pages.length + '</p>';
+                    const personalInfoPage = data.pages.find(p => p.name === 'Personal Information');
+                    if (personalInfoPage) {
+                        output.innerHTML += '<p style="color: green;">✅ Personal Information page found</p>';
+                        output.innerHTML += '<p>Components in Personal Information: ' + personalInfoPage.components.length + '</p>';
+                    } else {
+                        output.innerHTML += '<p style="color: red;">❌ Personal Information page not found</p>';
+                    }
+                } else {
+                    output.innerHTML += '<p style="color: red;">❌ No pages found</p>';
+                }
+                
+            } catch (error) {
+                output.innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('API test error:', error);
+            }
+        }
+        
+        // Run test on page load
+        testAPI();
+    </script>
+</body>
+</html> 

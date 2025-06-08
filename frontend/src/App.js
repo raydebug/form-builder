@@ -134,8 +134,8 @@ function App() {
     try {
       let newComponent;
       
-      if (type === 'nested') {
-        // Creating a nested component under a parent component
+      if (type === 'nested' || type === 'field') {
+        // Creating a nested component under a parent component (both sub-components and fields)
         newComponent = await createNestedComponent(containerId, componentData);
       } else {
         // Creating a component in a page

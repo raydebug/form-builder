@@ -187,7 +187,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
             {/* Page Components - Tree View (Read-Only) */}
             {isExpanded && (
               <div className="page-components">
-                {components.filter(component => !component.parentComponent).map(component => (
+                {components.map(component => (
                   <div
                     key={component.id}
                     className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === component.id ? 'selected-node' : ''}`}
@@ -248,7 +248,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                     )}
                   </div>
                 ))}
-                {components.filter(component => !component.parentComponent).length === 0 && (
+                {components.length === 0 && (
                   <div className="no-components-message">
                     <span>No components yet</span>
                     <button

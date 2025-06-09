@@ -1,6 +1,7 @@
 package com.formbuilder.backend.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Page {
 
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("page-components")
+    @Where(clause = "parent_component_id IS NULL")
     private List<Component> components = new ArrayList<>();
 
     // Constructors

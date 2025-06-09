@@ -18,6 +18,9 @@ public class Component {
     private String componentType; // e.g., "TEXT_INPUT", "CHECKBOX_GROUP"
     private String label;
 
+    @Column(name = "order_index")
+    private Integer orderIndex = 0;
+
     @Lob // For potentially large JSON string
     private String attributes; // Store component-specific attributes as JSON
 
@@ -33,6 +36,7 @@ public class Component {
 
     @OneToMany(mappedBy = "parentComponent", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("parent-child")
+    @OrderBy("orderIndex ASC")
     private List<Component> childComponents = new ArrayList<>();
 
     // Constructors
@@ -68,6 +72,14 @@ public class Component {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Integer getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(Integer orderIndex) {
+        this.orderIndex = orderIndex;
     }
 
     public String getAttributes() {

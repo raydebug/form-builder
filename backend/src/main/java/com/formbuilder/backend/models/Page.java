@@ -28,6 +28,7 @@ public class Page {
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("page-components")
     @Where(clause = "parent_component_id IS NULL")
+    @OrderBy("orderIndex ASC")
     private List<Component> components = new ArrayList<>();
 
     // Constructors

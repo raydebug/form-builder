@@ -144,9 +144,16 @@ public class ComponentController {
             throw new IllegalArgumentException("componentIds array is required");
         }
 
-        // Update order - for simplicity, we'll use a custom order field
-        // In a real implementation, you might want to add an 'orderIndex' field to Component
-        // For now, we'll just return the components in the requested order
+        // Update the orderIndex for each component based on the new order
+        for (int i = 0; i < componentIds.size(); i++) {
+            Long componentId = componentIds.get(i);
+            Component component = componentRepository.findById(componentId)
+                    .orElseThrow(() -> new ComponentNotFoundException("Component not found with id: " + componentId));
+            component.setOrderIndex(i);
+            componentRepository.save(component);
+        }
+
+        // Return the components in the new order
         List<Component> reorderedComponents = componentIds.stream()
                 .map(id -> componentRepository.findById(id)
                         .orElseThrow(() -> new ComponentNotFoundException("Component not found with id: " + id)))
@@ -166,7 +173,16 @@ public class ComponentController {
             throw new IllegalArgumentException("componentIds array is required");
         }
 
-        // Update order - similar to page components
+        // Update the orderIndex for each nested component based on the new order
+        for (int i = 0; i < componentIds.size(); i++) {
+            Long componentId = componentIds.get(i);
+            Component component = componentRepository.findById(componentId)
+                    .orElseThrow(() -> new ComponentNotFoundException("Component not found with id: " + componentId));
+            component.setOrderIndex(i);
+            componentRepository.save(component);
+        }
+
+        // Return the components in the new order
         List<Component> reorderedComponents = componentIds.stream()
                 .map(id -> componentRepository.findById(id)
                         .orElseThrow(() -> new ComponentNotFoundException("Component not found with id: " + id)))

@@ -127,7 +127,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
         onClick={handleFormSelect}
       >
         <div className="tree-item-content">
-          <span className="tree-checkbox">{isFormSelected ? '☑' : '☐'}</span>
+          
           <span className="tree-icon">📋</span>
           <span className="tree-text">{form.name}</span>
           <div className="tree-actions" onClick={(e) => e.stopPropagation()}>
@@ -186,7 +186,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                 >
                   {isExpanded ? '▼' : '▶'}
                 </button>
-                <span className="tree-checkbox">{isPageSelected ? '☑' : '☐'}</span>
+
                 <span className="tree-icon">📄</span>
                 <span className="tree-text">{page.name}</span>
                 <div className="tree-actions" onClick={(e) => e.stopPropagation()}>
@@ -239,7 +239,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                     <div className="tree-item-content">
                       <span className="tree-indent"></span>
                       <span className="tree-indent"></span>
-                      <span className="tree-checkbox">{selectedNodeType === 'component' && selectedNodeId === component.id ? '☑' : '☐'}</span>
+
                       <span className="tree-icon">
                         {getComponentIcon(component.componentType)}
                       </span>
@@ -262,7 +262,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                               <span className="tree-indent"></span>
                               <span className="tree-indent"></span>
                               <span className="tree-indent"></span>
-                              <span className="tree-checkbox">{selectedNodeType === 'component' && selectedNodeId === child.id ? '☑' : '☐'}</span>
+
                               <span className="tree-icon">
                                 {getComponentIcon(child.componentType)}
                               </span>
@@ -286,7 +286,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                                       <span className="tree-indent"></span>
                                       <span className="tree-indent"></span>
                                       <span className="tree-indent"></span>
-                                      <span className="tree-checkbox">{selectedNodeType === 'component' && selectedNodeId === grandchild.id ? '☑' : '☐'}</span>
+
                                       <span className="tree-icon">{getComponentIcon(grandchild.componentType)}</span>
                                       <span className="tree-text">{grandchild.label}</span>
                                     </div>

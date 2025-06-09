@@ -20,7 +20,7 @@ A web-based form builder application with a hierarchical structure that allows u
 - ✅ Test coverage for core functionality
 - ✅ Pages identified by names instead of numbers for better usability
 - ✅ **NEW**: Dual add buttons feature with comprehensive E2E testing (14/14 tests passing)
-- ✅ **NEW**: Hierarchical FormTree display with checkboxes and proper indentation
+- ✅ **NEW**: Ultra-compact hierarchical FormTree display with maximum text visibility
 
 ## Architecture
 
@@ -95,30 +95,36 @@ A web-based form builder application with a hierarchical structure that allows u
 3. **Smart Buttons**: Move buttons automatically disable at boundaries (first/last items)
 4. **Real-time Updates**: Order changes reflect immediately in all panels
 
-#### Hierarchical FormTree Display (NEW)
+#### Ultra-Compact FormTree Display (NEW)
 
-**Document-Style Tree Navigation**:
-- **Checkbox Selection**: Visual checkboxes (☐/☑) show selection state
-- **Proper Indentation**: Clean hierarchical structure with visual indents
-- **Expand/Collapse**: Modern arrow indicators (▶/▼) for tree expansion
-- **Level-Based Styling**: Different visual treatments for forms, pages, and components
+**Windows Explorer-Style Dense Layout**:
+- **Minimal Vertical Spacing**: 16px line height for maximum density
+- **Compact Indentation**: 12px indents for efficient space usage
+- **Small UI Elements**: 11px fonts, 10px icons, tiny action buttons
+- **Maximum Text Visibility**: More characters displayed per line
+
+**Space-Optimized Design**:
+- **Tight Padding**: 1-4px padding instead of 6-8px
+- **Smaller Icons**: 11px component icons, 8px expand arrows
+- **Reduced Margins**: Minimal spacing between all elements
+- **Compressed Forms**: Compact input fields and buttons
 
 **Visual Hierarchy System**:
-- **Level 0**: Form root (bold, highlighted background)
-- **Level 1**: Pages (indented with expand arrows)
-- **Level 2+**: Components (deeper indentation with descriptive icons)
+- **Level 0**: Form root (subtle background, 11px font)
+- **Level 1**: Pages (minimal indent, compact expand arrows)
+- **Level 2+**: Components (progressive 12px indents per level)
 
-**Icon System**:
+**Icon System** (Compact 11px):
 - **Container Components**: 📦 PANEL/CONTAINER, 🗂️ FIELDSET, 📁 GROUP, 📋 SECTION, 🃏 CARD, 📑 TAB_PANEL, 🪗 ACCORDION
 - **Input Components**: 📝 TEXT_INPUT, 📧 EMAIL_INPUT, 🔒 PASSWORD_INPUT, 📄 TEXT_AREA, 🔢 NUMBER_INPUT, 📅 DATE_INPUT, ⏰ TIME_INPUT, 📎 FILE_INPUT
 - **Selection Components**: ☑️ CHECKBOX, 🔘 RADIO, 📋 SELECT  
 - **Action Components**: 🔲 BUTTON, ✅ SUBMIT_BUTTON
 
-**Enhanced UX Features**:
-- Hover-revealed action buttons for clean appearance
-- Clear visual selection feedback with blue highlighting
-- Smooth transitions and professional color scheme
-- Structured layout similar to modern IDE project explorers
+**Density Features**:
+- Information-dense layout showing more items per screen
+- Hover-revealed micro action buttons (14px size)
+- Ultra-small checkboxes (10px) for selection state
+- Minimal visual noise, maximum content visibility
 
 #### Component Types Supported
 

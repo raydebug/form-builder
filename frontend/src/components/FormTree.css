@@ -1,12 +1,12 @@
 /* FormTree Component Styles */
 .form-tree {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.2;
   color: #333;
   background: #fff;
   border: 1px solid #e1e4e8;
-  border-radius: 6px;
+  border-radius: 3px;
   overflow-y: auto;
   max-height: 100%;
 }
@@ -17,6 +17,7 @@
   cursor: pointer;
   user-select: none;
   transition: background-color 0.15s ease;
+  line-height: 1.1;
 }
 
 .tree-item:hover {
@@ -36,31 +37,31 @@
 .tree-item-content {
   display: flex;
   align-items: center;
-  padding: 6px 8px;
-  min-height: 28px;
+  padding: 1px 4px;
+  min-height: 16px;
 }
 
 /* Indentation System */
 .tree-indent {
-  width: 16px;
+  width: 12px;
   flex-shrink: 0;
 }
 
 /* Level-specific styling */
 .tree-item.level-1 .tree-item-content {
-  padding-left: 4px;
+  padding-left: 2px;
 }
 
 .tree-item.level-2 .tree-item-content {
-  padding-left: 2px;
+  padding-left: 1px;
 }
 
 .tree-item.level-3 .tree-item-content {
-  padding-left: 2px;
+  padding-left: 1px;
 }
 
 .tree-item.level-4 .tree-item-content {
-  padding-left: 2px;
+  padding-left: 1px;
 }
 
 /* Expand/Collapse Button */
@@ -70,13 +71,13 @@
   color: #666;
   cursor: pointer;
   padding: 0;
-  margin-right: 4px;
-  width: 12px;
-  height: 12px;
+  margin-right: 2px;
+  width: 9px;
+  height: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 8px;
   flex-shrink: 0;
 }
 
@@ -89,19 +90,19 @@
 /* Checkbox Styling */
 .tree-checkbox {
   color: #2196f3;
-  margin-right: 6px;
-  font-size: 12px;
+  margin-right: 3px;
+  font-size: 10px;
   flex-shrink: 0;
-  width: 14px;
+  width: 10px;
   text-align: center;
 }
 
 /* Icon Styling */
 .tree-icon {
-  margin-right: 6px;
-  font-size: 14px;
+  margin-right: 3px;
+  font-size: 11px;
   flex-shrink: 0;
-  width: 16px;
+  width: 12px;
   text-align: center;
 }
 
@@ -111,22 +112,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 400;
   color: #333;
+  font-size: 11px;
 }
 
 .tree-item.selected .tree-text {
   color: #1976d2;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* Action Buttons */
 .tree-actions {
   display: flex;
-  gap: 2px;
+  gap: 1px;
   opacity: 0;
   transition: opacity 0.15s ease;
-  margin-left: 8px;
+  margin-left: 4px;
 }
 
 .tree-item:hover .tree-actions {
@@ -138,14 +140,14 @@
   border: none;
   color: #666;
   cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-size: 12px;
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
 }
 
 .tree-action-btn:hover {
@@ -166,13 +168,14 @@
 /* Form Node Specific Styles */
 .form-node {
   background-color: #f8f9fa;
-  border-bottom: 2px solid #e1e4e8;
-  font-weight: 600;
+  border-bottom: 1px solid #e1e4e8;
+  font-weight: 500;
 }
 
 .form-node .tree-text {
-  font-weight: 700;
+  font-weight: 600;
   color: #2c3e50;
+  font-size: 11px;
 }
 
 /* Page Node Specific Styles */
@@ -181,34 +184,36 @@
 }
 
 .page-node .tree-text {
-  font-weight: 600;
+  font-weight: 500;
   color: #444;
+  font-size: 11px;
 }
 
 /* Component Node Specific Styles */
 .component-node .tree-text {
-  font-weight: 500;
+  font-weight: 400;
   color: #586069;
+  font-size: 11px;
 }
 
 /* Add Form Styles */
 .add-form {
   background-color: #f6f8fa;
   border-bottom: 1px solid #e1e4e8;
-  padding: 8px;
+  padding: 4px;
 }
 
 .add-form-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .add-form input {
-  padding: 6px 8px;
+  padding: 3px 5px;
   border: 1px solid #d1d5da;
-  border-radius: 4px;
-  font-size: 13px;
+  border-radius: 2px;
+  font-size: 11px;
   background: white;
 }
 
@@ -220,16 +225,16 @@
 
 .add-form-buttons {
   display: flex;
-  gap: 6px;
+  gap: 3px;
 }
 
 .btn-primary {
   background-color: #2196f3;
   color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-size: 10px;
   cursor: pointer;
   font-weight: 500;
 }
@@ -242,9 +247,9 @@
   background-color: #f6f8fa;
   color: #586069;
   border: 1px solid #d1d5da;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-size: 10px;
   cursor: pointer;
   font-weight: 500;
 }

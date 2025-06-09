@@ -136,7 +136,7 @@
 }
 
 .tree-item:hover .tree-actions {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .tree-action-btn {
@@ -150,8 +150,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .tree-action-btn:hover {

@@ -99,7 +99,7 @@ const PageEditor = ({ page, selectedNode, onSelectNode, onCreateComponent, onDel
   const isPageSelected = selectedNode && selectedNode.id === page.id && selectedNode.nodeType === 'page';
 
   return (
-    <div className="page-editor">
+    <div className="page-editor" data-testid="page-editor">
       <div className="page-editor-header">
         <h3>Page Editor</h3>
         <span className="page-info">{page.name}</span>

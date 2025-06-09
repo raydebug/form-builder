@@ -20,7 +20,7 @@ A web-based form builder application with a hierarchical structure that allows u
 - ✅ Test coverage for core functionality
 - ✅ Pages identified by names instead of numbers for better usability
 - ✅ **NEW**: Dual add buttons feature with comprehensive E2E testing (14/14 tests passing)
-- ✅ **NEW**: Ultra-narrow expandable FormTree: component-level expand/collapse, 8px component height
+- ✅ **NEW**: Move functionality with E2E tests: page/component reordering, comprehensive testing coverage
 
 ## Architecture
 

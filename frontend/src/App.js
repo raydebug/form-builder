@@ -195,7 +195,7 @@ function App() {
 
   // ===== NEW: MOVE/REORDER OPERATIONS =====
 
-  const handleMoveComponent = async (itemId, itemType, direction, parentItems = []) => {
+  const handleMoveComponent = async (itemId, itemType, direction, parentInfo = null) => {
     if (!currentForm) return;
 
     try {
@@ -216,30 +216,51 @@ function App() {
           await reorderPages(currentForm.id, pageIds);
         }
       } else if (itemType === 'component') {
-        // Reordering components
-        const currentIndex = parentItems.findIndex(c => c.id === itemId);
-        
-        if (direction === 'up' && currentIndex > 0) {
-          const newOrder = [...parentItems];
-          [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
-          const componentIds = newOrder.map(c => c.id);
+        // Reordering components - need to find the parent context
+        if (!parentInfo) {
+          // Find which page this component belongs to
+          let parentPageId = null;
+          let siblingComponents = [];
           
-          // Determine if we're reordering within a page or within a parent component
-          const component = parentItems[0];
-          if (component && component.page) {
-            await reorderComponents(component.page.id, 'page', componentIds);
-          } else {
-            // This would need additional logic to determine the parent component ID
-            console.warn('Component reordering for nested components not fully implemented');
+          for (const page of currentForm.pages) {
+            const pageComponents = page.components || [];
+            if (pageComponents.find(c => c.id === itemId)) {
+              parentPageId = page.id;
+              siblingComponents = pageComponents;
+              break;
+            }
           }
-        } else if (direction === 'down' && currentIndex < parentItems.length - 1) {
-          const newOrder = [...parentItems];
-          [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
-          const componentIds = newOrder.map(c => c.id);
           
-          const component = parentItems[0];
-          if (component && component.page) {
-            await reorderComponents(component.page.id, 'page', componentIds);
+          if (parentPageId) {
+            const currentIndex = siblingComponents.findIndex(c => c.id === itemId);
+            
+            if (direction === 'up' && currentIndex > 0) {
+              const newOrder = [...siblingComponents];
+              [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
+              const componentIds = newOrder.map(c => c.id);
+              await reorderComponents(parentPageId, 'page', componentIds);
+            } else if (direction === 'down' && currentIndex < siblingComponents.length - 1) {
+              const newOrder = [...siblingComponents];
+              [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
+              const componentIds = newOrder.map(c => c.id);
+              await reorderComponents(parentPageId, 'page', componentIds);
+            }
+          }
+        } else {
+          // Use provided parent info for nested components
+          const { containerId, containerType, siblingComponents } = parentInfo;
+          const currentIndex = siblingComponents.findIndex(c => c.id === itemId);
+          
+          if (direction === 'up' && currentIndex > 0) {
+            const newOrder = [...siblingComponents];
+            [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
+            const componentIds = newOrder.map(c => c.id);
+            await reorderComponents(containerId, containerType, componentIds);
+          } else if (direction === 'down' && currentIndex < siblingComponents.length - 1) {
+            const newOrder = [...siblingComponents];
+            [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
+            const componentIds = newOrder.map(c => c.id);
+            await reorderComponents(containerId, containerType, componentIds);
           }
         }
       }

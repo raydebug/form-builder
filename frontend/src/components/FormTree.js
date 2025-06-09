@@ -184,7 +184,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
   const pages = form.pages || [];
 
   return (
-    <div className="form-tree">
+    <div className="form-tree" data-testid="form-tree">
       {/* Form Node */}
       <div
         className={`tree-item form-node ${isFormSelected ? 'selected' : ''}`}

@@ -47,6 +47,11 @@
   flex-shrink: 0;
 }
 
+/* Ultra-narrow indentation for components */
+.component-node .tree-indent {
+  width: 6px;
+}
+
 /* Level-specific styling - push text as far left as possible */
 .tree-item.level-1 .tree-item-content {
   padding-left: 0px;
@@ -78,6 +83,13 @@
   align-items: center;
   justify-content: center;
   font-size: 6px;
+  flex-shrink: 0;
+}
+
+/* Expand button spacer for non-expandable items */
+.tree-expand-spacer {
+  width: 7px;
+  height: 6px;
   flex-shrink: 0;
 }
 
@@ -185,11 +197,36 @@
   font-size: 11px;
 }
 
-/* Component Node Specific Styles */
+/* Component Node Specific Styles - Ultra Narrow */
+.component-node {
+  min-height: 8px;
+}
+
+.component-node .tree-item-content {
+  min-height: 8px;
+  padding: 0px 1px 0px 0px;
+}
+
+.component-node .tree-expand-btn {
+  width: 5px;
+  height: 5px;
+  font-size: 5px;
+}
+
+.component-node .tree-expand-spacer {
+  width: 6px;
+  height: 5px;
+}
+
+.component-node .tree-icon {
+  font-size: 7px;
+  width: 6px;
+}
+
 .component-node .tree-text {
   font-weight: 400;
   color: #586069;
-  font-size: 11px;
+  font-size: 9px;
 }
 
 /* Add Form Styles */

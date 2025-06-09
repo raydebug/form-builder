@@ -39,7 +39,7 @@
 - [x] **🔄 Panel Coordination**: Selection synchronization between tree and editor
 - [x] **🎯 Separation of Concerns**: Clear division of responsibilities
 - [x] **✅ Dual Add Buttons**: Container components have 📦➕ and ⚬➕ buttons in PageEditor
-- [x] **✅ Ultra-Minimal FormTree**: No checkboxes, 10px node height, maximum density
+- [x] **✅ Ultra-Narrow Expandable FormTree**: Component-level expand/collapse, 8px component height
 - [ ] **UI Test Refinement**: Some edge cases need test adjustments
 
 ### 🔄 **IN PROGRESS TASKS**
@@ -63,13 +63,13 @@ The FormTree panel now uses an **ultra-dense Windows Explorer-style layout**:
 - **Component Levels**: Progressive indentation with descriptive type icons
 - **Selection State**: Clear checkbox indicators (☐ for unselected, ☑ for selected)
 
-#### Ultra-Minimal Design Features ✅
-- **No Checkboxes**: Eliminated selection checkboxes for maximum cleanliness and space
-- **10px Node Height**: Ultra-low min-height for extreme content density
-- **Micro UI Elements**: 6px expand arrows, 8px icons, 8px indentation
-- **1.0 Line Height**: Absolute minimum vertical spacing for text
-- **Zero Left Padding**: Text pushed to absolute leftmost position (0px)
-- **Collapsed by Default**: Clean startup with all nodes collapsed initially
+#### Ultra-Narrow Expandable Design Features ✅
+- **Component-Level Expand/Collapse**: Every component with children can expand/collapse branches below
+- **8px Component Height**: Ultra-narrow component nodes (even smaller than 10px page nodes)
+- **Micro Component Elements**: 5px expand arrows, 6px icons, 6px indentation for components
+- **Recursive Tree Structure**: Unlimited nesting levels with dynamic expand/collapse state
+- **Collapsed by Default**: All pages AND components start collapsed for maximum cleanliness
+- **Smart Spacers**: Non-expandable components get expand spacers for visual alignment
 
 #### Icon Mapping System ✅
 - **Container Components**: 📦 PANEL/CONTAINER, 🗂️ FIELDSET, 📁 GROUP, 📋 SECTION, 🃏 CARD, 📑 TAB_PANEL, 🪗 ACCORDION
@@ -78,14 +78,14 @@ The FormTree panel now uses an **ultra-dense Windows Explorer-style layout**:
 - **Action Components**: 🔲 BUTTON, ✅ SUBMIT_BUTTON
 
 #### Technical Implementation ✅
-- **Removed Checkboxes**: Eliminated all selection checkboxes for cleaner interface
-- **Ultra-Low Height**: Reduced min-height from 16px → 10px for maximum density
-- **Micro Elements**: 6px expand arrows, 8px icons, 8px indentation (down from 10px)
-- **1.0 Line Height**: Minimum possible line spacing (down from 1.2)
-- **10px Text**: Reduced font size for more content per line
-- **Zero Padding**: Absolute left alignment with 0px left padding
-- **Collapsed Default**: All nodes start collapsed for clean startup
-- **100% Test Compatibility**: All 14/14 E2E tests passing with minimal design
+- **Component Expand State**: Added `expandedComponents` state management for component-level expand/collapse
+- **Recursive Renderer**: Created `renderComponent()` function for unlimited nesting with expand/collapse
+- **8px Component Height**: Ultra-narrow component nodes (pages: 10px, components: 8px)
+- **Micro Component UI**: 5px expand arrows, 6px icons, 6px indentation specifically for components
+- **Smart Spacers**: `.tree-expand-spacer` for non-expandable items to maintain alignment
+- **Collapsed Default**: Both pages and components start collapsed with `expandedComponents: {}`
+- **Dynamic Hierarchy**: Components expand below with `level + 1` progressive indentation
+- **100% Test Compatibility**: All 14/14 E2E tests passing with expandable ultra-narrow design
 
 ### ✅ **FEATURE COMPLETED: Dual Add Buttons**
 

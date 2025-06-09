@@ -20,7 +20,7 @@ A web-based form builder application with a hierarchical structure that allows u
 - ✅ Test coverage for core functionality
 - ✅ Pages identified by names instead of numbers for better usability
 - ✅ **NEW**: Dual add buttons feature with comprehensive E2E testing (14/14 tests passing)
-- ✅ **NEW**: Ultra-minimal FormTree: no checkboxes, 10px node height, maximum density
+- ✅ **NEW**: Ultra-narrow expandable FormTree: component-level expand/collapse, 8px component height
 
 ## Architecture
 
@@ -103,11 +103,11 @@ A web-based form builder application with a hierarchical structure that allows u
 - **Small UI Elements**: 11px fonts, 10px icons, tiny action buttons
 - **Maximum Text Visibility**: More characters displayed per line
 
-**Ultra-Minimal Design**:
-- **No Checkboxes**: Removed selection checkboxes for maximum cleanliness
-- **10px Node Height**: Ultra-low min-height for maximum content density
-- **Micro UI Elements**: 6px expand arrows, 8px icons, 8px indentation
-- **Zero Padding**: Text pushed as far left as possible with 1.0 line-height
+**Ultra-Narrow Expandable Design**:
+- **Component-Level Expand/Collapse**: Every component with children can expand/collapse branches
+- **8px Component Height**: Ultra-narrow component nodes for maximum density
+- **Micro Elements**: 5px component expand arrows, 6px component icons, 6px indentation
+- **Recursive Hierarchy**: Full tree structure with unlimited nesting levels
 
 **Visual Hierarchy System**:
 - **Level 0**: Form root (subtle background, 11px font)

@@ -4,6 +4,7 @@ import './FormTree.css';
 
 const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCreatePage, onDeletePage, onCreateComponent, onDeleteComponent, onMoveComponent }) => {
   const [expandedPages, setExpandedPages] = useState({});
+  const [expandedComponents, setExpandedComponents] = useState({});
   const [showAddPageForm, setShowAddPageForm] = useState(false);
   const [newPageName, setNewPageName] = useState('');
 
@@ -44,13 +45,69 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
     return iconMap[componentType] || '⚬';
   };
 
-  // Pages collapsed by default - no auto-expansion
+  // Pages and components collapsed by default - no auto-expansion
   useEffect(() => {
     if (form && form.pages && form.pages.length > 0) {
-      // All pages start collapsed by default
+      // All pages and components start collapsed by default
       setExpandedPages({});
+      setExpandedComponents({});
     }
   }, [form]);
+
+  // Recursive component renderer with expand/collapse
+  const renderComponent = (component, level) => {
+    const isSelected = selectedNodeType === 'component' && selectedNodeId === component.id;
+    const isExpanded = expandedComponents[component.id];
+    const hasChildren = component.childComponents && component.childComponents.length > 0;
+
+    return (
+      <div key={component.id}>
+        <div
+          className={`tree-item component-node level-${level} ${isSelected ? 'selected' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelectNode(component, 'component');
+          }}
+        >
+          <div className="tree-item-content">
+            {/* Indentation */}
+            {Array.from({ length: level }, (_, i) => (
+              <span key={i} className="tree-indent"></span>
+            ))}
+            
+            {/* Expand/Collapse button for components with children */}
+            {hasChildren ? (
+              <button
+                className="tree-expand-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleComponentExpansion(component.id);
+                }}
+              >
+                {isExpanded ? '▼' : '▶'}
+              </button>
+            ) : (
+              <span className="tree-expand-spacer"></span>
+            )}
+            
+            <span className="tree-icon">
+              {getComponentIcon(component.componentType)}
+            </span>
+            <span className="tree-text">{component.label}</span>
+          </div>
+        </div>
+        
+        {/* Render child components when expanded */}
+        {isExpanded && hasChildren && (
+          <div className="tree-child-components">
+            {component.childComponents.map(child => 
+              renderComponent(child, level + 1)
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   if (!form) {
     return <div className="form-tree-placeholder">No form data available.</div>;
@@ -74,6 +131,13 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
     setExpandedPages(prev => ({
       ...prev,
       [pageId]: !prev[pageId]
+    }));
+  };
+
+  const toggleComponentExpansion = (componentId) => {
+    setExpandedComponents(prev => ({
+      ...prev,
+      [componentId]: !prev[componentId]
     }));
   };
 
@@ -224,82 +288,10 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
               </div>
             </div>
 
-            {/* Page Components - Tree View (Read-Only) */}
+                        {/* Page Components - Tree View with Expand/Collapse */}
             {isExpanded && (
               <div className="page-components">
-                {components.map(component => (
-                  <div
-                    key={component.id}
-                    className={`tree-item component-node level-2 ${selectedNodeType === 'component' && selectedNodeId === component.id ? 'selected' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectNode(component, 'component');
-                    }}
-                  >
-                    <div className="tree-item-content">
-                      <span className="tree-indent"></span>
-                      <span className="tree-indent"></span>
-
-                      <span className="tree-icon">
-                        {getComponentIcon(component.componentType)}
-                      </span>
-                      <span className="tree-text">{component.label}</span>
-                    </div>
-                    
-                    {/* Render child components recursively for tree view */}
-                    {component.childComponents && component.childComponents.length > 0 && (
-                      <div className="tree-child-components">
-                        {component.childComponents.map(child => (
-                          <div
-                            key={child.id}
-                            className={`tree-item component-node level-3 ${selectedNodeType === 'component' && selectedNodeId === child.id ? 'selected' : ''}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onSelectNode(child, 'component');
-                            }}
-                          >
-                            <div className="tree-item-content">
-                              <span className="tree-indent"></span>
-                              <span className="tree-indent"></span>
-                              <span className="tree-indent"></span>
-
-                              <span className="tree-icon">
-                                {getComponentIcon(child.componentType)}
-                              </span>
-                              <span className="tree-text">{child.label}</span>
-                            </div>
-                            
-                            {/* Recursive rendering for deeper nesting */}
-                            {child.childComponents && child.childComponents.length > 0 && (
-                              <div className="tree-child-components">
-                                {child.childComponents.map(grandchild => (
-                                  <div
-                                    key={grandchild.id}
-                                    className={`tree-item component-node level-4 ${selectedNodeType === 'component' && selectedNodeId === grandchild.id ? 'selected' : ''}`}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onSelectNode(grandchild, 'component');
-                                    }}
-                                  >
-                                    <div className="tree-item-content">
-                                      <span className="tree-indent"></span>
-                                      <span className="tree-indent"></span>
-                                      <span className="tree-indent"></span>
-                                      <span className="tree-indent"></span>
-
-                                      <span className="tree-icon">{getComponentIcon(grandchild.componentType)}</span>
-                                      <span className="tree-text">{grandchild.label}</span>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {components.map(component => renderComponent(component, 2))}
                 {components.length === 0 && (
                   <div className="no-components-message">
                     <span>No components yet</span>

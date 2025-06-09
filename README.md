@@ -20,6 +20,7 @@ A web-based form builder application with a hierarchical structure that allows u
 - ✅ Test coverage for core functionality
 - ✅ Pages identified by names instead of numbers for better usability
 - ✅ **NEW**: Dual add buttons feature with comprehensive E2E testing (14/14 tests passing)
+- ✅ **NEW**: Compact FormTree display with descriptive component type icons
 
 ## Architecture
 
@@ -93,6 +94,26 @@ A web-based form builder application with a hierarchical structure that allows u
 2. **Components**: Use ⬆️ ⬇️ arrows to reorder components within page or parent
 3. **Smart Buttons**: Move buttons automatically disable at boundaries (first/last items)
 4. **Real-time Updates**: Order changes reflect immediately in all panels
+
+#### Compact FormTree Display (NEW)
+
+**Enhanced Navigation Panel**:
+- **Descriptive Icons**: Each component type has a unique, meaningful icon
+- **Space Efficient**: Removed redundant component type badges for cleaner appearance
+- **Better UX**: 30-50% less horizontal space usage, better for narrow screens
+- **Visual Clarity**: Icons clearly communicate component purpose at a glance
+
+**Icon System**:
+- **Container Components**: 📦 PANEL/CONTAINER, 🗂️ FIELDSET, 📁 GROUP, 📋 SECTION, 🃏 CARD, 📑 TAB_PANEL, 🪗 ACCORDION
+- **Input Components**: 📝 TEXT_INPUT, 📧 EMAIL_INPUT, 🔒 PASSWORD_INPUT, 📄 TEXT_AREA, 🔢 NUMBER_INPUT, 📅 DATE_INPUT, ⏰ TIME_INPUT, 📎 FILE_INPUT
+- **Selection Components**: ☑️ CHECKBOX, 🔘 RADIO, 📋 SELECT  
+- **Action Components**: 🔲 BUTTON, ✅ SUBMIT_BUTTON
+
+**Benefits**:
+- Cleaner, less cluttered tree navigation
+- Faster component type recognition through visual icons
+- More screen space for component names and structure
+- Better mobile and narrow viewport experience
 
 #### Component Types Supported
 

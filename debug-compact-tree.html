@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compact FormTree Preview</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .tree-preview { background: #f5f5f5; padding: 20px; border-radius: 8px; }
+        .component-item { margin: 5px 0; padding: 5px; display: flex; align-items: center; }
+        .component-icon { margin-right: 8px; font-size: 16px; }
+        .component-label { font-weight: 500; }
+        .indent-1 { margin-left: 20px; }
+        .indent-2 { margin-left: 40px; }
+        .old-version { opacity: 0.5; text-decoration: line-through; }
+    </style>
+</head>
+<body>
+    <h1>FormTree Compact Display Preview</h1>
+    
+    <h2>✅ New Compact Version (Icon + Name Only)</h2>
+    <div class="tree-preview">
+        <h3>📄 Registration Form</h3>
+        
+        <div class="component-item">
+            <span class="component-icon">📝</span>
+            <span class="component-label">First Name</span>
+        </div>
+        
+        <div class="component-item">
+            <span class="component-icon">🗂️</span>
+            <span class="component-label">Contact Info</span>
+        </div>
+        
+        <div class="component-item indent-1">
+            <span class="component-icon">📧</span>
+            <span class="component-label">Email</span>
+        </div>
+        
+        <div class="component-item">
+            <span class="component-icon">📄</span>
+            <span class="component-label">Feedback</span>
+        </div>
+    </div>
+    
+    <h2>❌ Old Version (Icon + Name + Type Badge)</h2>
+    <div class="tree-preview old-version">
+        <h3>📄 Registration Form</h3>
+        
+        <div class="component-item">
+            <span class="component-icon">⚬</span>
+            <span class="component-label">First Name</span>
+            <span style="margin-left: 8px; background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 12px;">[TEXT_INPUT]</span>
+        </div>
+        
+        <div class="component-item">
+            <span class="component-icon">📦</span>
+            <span class="component-label">Contact Info</span>
+            <span style="margin-left: 8px; background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 12px;">[FIELDSET]</span>
+        </div>
+        
+        <div class="component-item indent-1">
+            <span class="component-icon">⚬</span>
+            <span class="component-label">Email</span>
+            <span style="margin-left: 8px; background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 12px;">[EMAIL_INPUT]</span>
+        </div>
+        
+        <div class="component-item">
+            <span class="component-icon">⚬</span>
+            <span class="component-label">Feedback</span>
+            <span style="margin-left: 8px; background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 12px;">[TEXT_AREA]</span>
+        </div>
+    </div>
+    
+    <h2>🎨 Icon Reference</h2>
+    <div class="tree-preview">
+        <h3>Container Components:</h3>
+        <div class="component-item"><span class="component-icon">📦</span> PANEL, CONTAINER</div>
+        <div class="component-item"><span class="component-icon">🗂️</span> FIELDSET</div>
+        <div class="component-item"><span class="component-icon">📁</span> GROUP</div>
+        <div class="component-item"><span class="component-icon">📋</span> SECTION</div>
+        <div class="component-item"><span class="component-icon">🃏</span> CARD</div>
+        <div class="component-item"><span class="component-icon">📑</span> TAB_PANEL</div>
+        <div class="component-item"><span class="component-icon">🪗</span> ACCORDION</div>
+        
+        <h3>Input Components:</h3>
+        <div class="component-item"><span class="component-icon">📝</span> TEXT_INPUT</div>
+        <div class="component-item"><span class="component-icon">📧</span> EMAIL_INPUT</div>
+        <div class="component-item"><span class="component-icon">🔒</span> PASSWORD_INPUT</div>
+        <div class="component-item"><span class="component-icon">📄</span> TEXT_AREA</div>
+        <div class="component-item"><span class="component-icon">🔢</span> NUMBER_INPUT</div>
+        <div class="component-item"><span class="component-icon">📅</span> DATE_INPUT</div>
+        <div class="component-item"><span class="component-icon">⏰</span> TIME_INPUT</div>
+        <div class="component-item"><span class="component-icon">📎</span> FILE_INPUT</div>
+        
+        <h3>Selection Components:</h3>
+        <div class="component-item"><span class="component-icon">☑️</span> CHECKBOX</div>
+        <div class="component-item"><span class="component-icon">🔘</span> RADIO</div>
+        <div class="component-item"><span class="component-icon">📋</span> SELECT</div>
+        
+        <h3>Action Components:</h3>
+        <div class="component-item"><span class="component-icon">🔲</span> BUTTON</div>
+        <div class="component-item"><span class="component-icon">✅</span> SUBMIT_BUTTON</div>
+    </div>
+    
+    <h2>📊 Space Savings</h2>
+    <div class="tree-preview">
+        <p><strong>Before:</strong> Icon + Name + Type Badge (e.g., "📝 First Name [TEXT_INPUT]")</p>
+        <p><strong>After:</strong> Descriptive Icon + Name (e.g., "📝 First Name")</p>
+        <p><strong>Benefits:</strong></p>
+        <ul>
+            <li>✅ 30-50% less horizontal space usage</li>
+            <li>✅ Cleaner, less cluttered appearance</li>
+            <li>✅ More descriptive icons reveal component type at a glance</li>
+            <li>✅ Better for narrow screen widths</li>
+            <li>✅ Focuses attention on component names (the primary identifier)</li>
+        </ul>
+    </div>
+</body>
+</html> 

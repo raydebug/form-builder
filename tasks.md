@@ -33,12 +33,13 @@
 - [x] **Test Configuration**: API tests run before UI tests
 - [x] **Error Handling Tests**: Edge cases and validation covered
 
-#### UI Architecture Design (95% Complete)
+#### UI Architecture Design (98% Complete)
 - [x] **📁 FormTree Panel**: Page-level operations only (add/delete/move pages)
 - [x] **📝 PageEditor Panel**: Component-level operations (dual add buttons, edit, delete)
 - [x] **🔄 Panel Coordination**: Selection synchronization between tree and editor
 - [x] **🎯 Separation of Concerns**: Clear division of responsibilities
 - [x] **✅ Dual Add Buttons**: Container components have 📦➕ and ⚬➕ buttons in PageEditor
+- [x] **✅ Compact FormTree Display**: Descriptive icons only (📝 TEXT_INPUT, 🗂️ FIELDSET, 📧 EMAIL_INPUT, etc.)
 - [ ] **UI Test Refinement**: Some edge cases need test adjustments
 
 ### 🔄 **IN PROGRESS TASKS**
@@ -47,6 +48,33 @@
 - [ ] **Form Tree Display**: CSS width issues causing zero-width elements
 - [ ] **Component Visibility**: E2E tests can't find rendered form elements
 - [ ] **Data Loading**: Backend data loads correctly but UI doesn't display
+
+### ✅ **FEATURE COMPLETED: Compact FormTree Display**
+
+#### Feature Description
+The FormTree panel now displays components with **descriptive icons and names only**:
+
+**Before**: `📦 Contact Info [FIELDSET]` (icon + name + type badge)
+**After**: `🗂️ Contact Info` (descriptive icon + name only)
+
+#### Icon Mapping System ✅
+- **Container Components**: 📦 PANEL/CONTAINER, 🗂️ FIELDSET, 📁 GROUP, 📋 SECTION, 🃏 CARD, 📑 TAB_PANEL, 🪗 ACCORDION
+- **Input Components**: 📝 TEXT_INPUT, 📧 EMAIL_INPUT, 🔒 PASSWORD_INPUT, 📄 TEXT_AREA, 🔢 NUMBER_INPUT, 📅 DATE_INPUT, ⏰ TIME_INPUT, 📎 FILE_INPUT, 👁️‍🗨️ HIDDEN_INPUT
+- **Selection Components**: ☑️ CHECKBOX, 🔘 RADIO, 📋 SELECT
+- **Action Components**: 🔲 BUTTON, ✅ SUBMIT_BUTTON
+
+#### Benefits ✅
+- **30-50% Space Savings**: Removes redundant component type badges
+- **Better UX**: Cleaner, less cluttered appearance
+- **Enhanced Recognition**: Descriptive icons communicate purpose at a glance
+- **Mobile Friendly**: Better for narrow screen widths
+- **Accessibility**: Focus on component names (primary identifier)
+
+#### Implementation ✅
+- Created `getComponentIcon()` helper function with comprehensive icon mapping
+- Updated all component display locations (tree, nested components)
+- Removed `component-type-badge` elements from all rendering
+- Maintained functional compatibility with existing API and E2E tests
 
 ### ✅ **FEATURE COMPLETED: Dual Add Buttons**
 

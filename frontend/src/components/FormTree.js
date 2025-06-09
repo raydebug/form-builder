@@ -7,6 +7,43 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
   const [showAddPageForm, setShowAddPageForm] = useState(false);
   const [newPageName, setNewPageName] = useState('');
 
+  // Helper function to get component icon based on type
+  const getComponentIcon = (componentType) => {
+    const iconMap = {
+      // Container components
+      'PANEL': '📦',
+      'CONTAINER': '📦', 
+      'FIELDSET': '🗂️',
+      'GROUP': '📁',
+      'SECTION': '📋',
+      'CARD': '🃏',
+      'TAB_PANEL': '📑',
+      'ACCORDION': '🪗',
+      
+      // Input components
+      'TEXT_INPUT': '📝',
+      'EMAIL_INPUT': '📧',
+      'PASSWORD_INPUT': '🔒',
+      'TEXT_AREA': '📄',
+      'NUMBER_INPUT': '🔢',
+      'DATE_INPUT': '📅',
+      'TIME_INPUT': '⏰',
+      'FILE_INPUT': '📎',
+      'HIDDEN_INPUT': '👁️‍🗨️',
+      
+      // Selection components
+      'CHECKBOX': '☑️',
+      'RADIO': '🔘',
+      'SELECT': '📋',
+      
+      // Action components
+      'BUTTON': '🔲',
+      'SUBMIT_BUTTON': '✅'
+    };
+    
+    return iconMap[componentType] || '⚬';
+  };
+
   // Auto-expand first page when form loads
   useEffect(() => {
     if (form && form.pages && form.pages.length > 0) {
@@ -198,10 +235,9 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                     style={{ marginLeft: `${20}px` }}
                   >
                     <span className="component-icon">
-                      {['PANEL', 'CONTAINER', 'FIELDSET', 'GROUP', 'SECTION'].includes(component.componentType) ? '📦' : '⚬'}
+                      {getComponentIcon(component.componentType)}
                     </span>
                     <span className="component-label">{component.label}</span>
-                    <span className="component-type-badge">[{component.componentType}]</span>
                     
                     {/* Render child components recursively for tree view */}
                     {component.childComponents && component.childComponents.length > 0 && (
@@ -217,10 +253,9 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                             style={{ marginLeft: `${20}px` }}
                           >
                             <span className="component-icon">
-                              {['PANEL', 'CONTAINER', 'FIELDSET', 'GROUP', 'SECTION'].includes(child.componentType) ? '📦' : '⚬'}
+                              {getComponentIcon(child.componentType)}
                             </span>
                             <span className="component-label">{child.label}</span>
-                            <span className="component-type-badge">[{child.componentType}]</span>
                             
                             {/* Recursive rendering for deeper nesting */}
                             {child.childComponents && child.childComponents.length > 0 && (
@@ -235,9 +270,8 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                                     }}
                                     style={{ marginLeft: `${20}px` }}
                                   >
-                                    <span className="component-icon">⚬</span>
+                                    <span className="component-icon">{getComponentIcon(grandchild.componentType)}</span>
                                     <span className="component-label">{grandchild.label}</span>
-                                    <span className="component-type-badge">[{grandchild.componentType}]</span>
                                   </div>
                                 ))}
                               </div>

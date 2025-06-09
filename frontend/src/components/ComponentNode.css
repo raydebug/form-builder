@@ -126,8 +126,8 @@
 /* Action buttons */
 .node-actions {
   display: flex;
-  gap: 4px;
-  opacity: 0;
+  gap: 8px;
+  opacity: 0.3;
   transition: opacity 0.2s ease;
 }
 
@@ -336,25 +336,35 @@
   }
 }
 
-/* Add button specific styles */
+/* Add button specific styles - DEBUGGING VERSION */
 .add-subcomponent-btn {
-  background-color: rgba(33, 136, 181, 0.1) !important;
-  border: 1px solid rgba(33, 136, 181, 0.3);
+  background-color: #2188b5 !important;
+  border: 3px solid #1565c0 !important;
+  color: white !important;
+  margin-right: 8px !important;
+  min-width: 35px !important;
+  font-weight: bold !important;
 }
 
 .add-subcomponent-btn:hover {
-  background-color: rgba(33, 136, 181, 0.2) !important;
-  transform: scale(1.1);
+  background-color: #1565c0 !important;
+  transform: scale(1.2) !important;
+  box-shadow: 0 4px 8px rgba(33, 136, 181, 0.5) !important;
 }
 
 .add-field-btn {
-  background-color: rgba(40, 167, 69, 0.1) !important;
-  border: 1px solid rgba(40, 167, 69, 0.3);
+  background-color: #28a745 !important;
+  border: 3px solid #1e7e34 !important;
+  color: white !important;
+  margin-left: 8px !important;
+  min-width: 35px !important;
+  font-weight: bold !important;
 }
 
 .add-field-btn:hover {
-  background-color: rgba(40, 167, 69, 0.2) !important;
-  transform: scale(1.1);
+  background-color: #1e7e34 !important;
+  transform: scale(1.2) !important;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.5) !important;
 }
 
 /* Form styles for field form */

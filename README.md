@@ -428,13 +428,38 @@ The `dual-add-buttons.cy.js` test suite provides comprehensive coverage:
 
 ## Usage
 
+### 🏗️ **Dual Panel Architecture**
+
+The form builder uses a **separation of concerns** design with two main panels:
+
+#### 📁 **Left Form Tree Panel** - Page Management
+- **Purpose**: Form and page-level operations only
+- **Features**:
+  - ➕ Add new pages to forms
+  - 🗑️ Delete pages 
+  - ⬆️⬇️ Move pages up/down
+  - 📁 Expand/collapse page structure
+  - View basic component hierarchy
+- **Design**: Clean, focused interface for structural navigation
+
+#### 📝 **Page Editor Panel** - Component Management  
+- **Purpose**: Detailed component operations and editing
+- **Features**:
+  - **Dual Add Buttons** for container components:
+    - 📦➕ Add Sub-Component (containers like PANEL, FIELDSET)
+    - ⚬➕ Add Field (inputs like TEXT_INPUT, CHECKBOX)
+  - 🗑️ Delete components
+  - ⬆️⬇️ Move components within pages
+  - 📝 Edit component properties and attributes
+  - View complete component hierarchy with nesting
+
+### 🎯 **Workflow**
 1. **Start both backend and frontend** as described in setup instructions
-2. **View Form Tree**: The left panel shows the hierarchical structure with named pages
-3. **Select Nodes**: Click on any form, page, or component to select it
-4. **Edit Attributes**: Use the right panel to modify properties including page names
-5. **Save Changes**: Click "Save Changes" to persist modifications
-6. **Navigate Hierarchy**: Expand/collapse nodes to explore the structure
-7. **Create Pages**: Add new pages with meaningful names like "User Profile", "Preferences", etc.
+2. **Form Tree**: Use left panel to manage pages and navigate structure
+3. **Page Editor**: Click a page in tree to activate detailed editing in right panel
+4. **Component Operations**: Use page editor for all component add/edit/delete operations
+5. **Attributes Panel**: Further right panel for detailed property editing
+6. **Save Changes**: All modifications are auto-saved via API
 
 ## Development Notes
 

@@ -6,6 +6,7 @@ module.exports = {
       'cypress/e2e/api.cy.{js,jsx,ts,tsx}',
       'cypress/e2e/form-builder.cy.{js,jsx,ts,tsx}',
       'cypress/e2e/dual-add-buttons.cy.{js,jsx,ts,tsx}',
+      'cypress/e2e/ui-architecture.cy.{js,jsx,ts,tsx}',
       'cypress/e2e/test-dual-buttons.cy.{js,jsx,ts,tsx}'
     ],
     fixturesFolder: 'cypress/fixtures',

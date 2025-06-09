@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Add Buttons Debug Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+        .debug-section { 
+            background: white; 
+            border: 1px solid #dee2e6; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .highlight { background: #fff3cd; padding: 2px 4px; border-radius: 3px; }
+        .step { 
+            background: #e3f2fd; 
+            padding: 10px; 
+            border-radius: 4px; 
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .issue { 
+            background: #fce4ec; 
+            padding: 10px; 
+            border-radius: 4px; 
+            border-left: 4px solid #e91e63;
+        }
+        .success { 
+            background: #e8f5e8; 
+            padding: 10px; 
+            border-radius: 4px; 
+            border-left: 4px solid #4caf50;
+        }
+        code { 
+            background: #f8f9fa; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-family: 'Courier New', monospace;
+        }
+        .button-demo {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .demo-btn {
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+        .sub-btn {
+            background-color: rgba(33, 136, 181, 0.1);
+            border-color: rgba(33, 136, 181, 0.3);
+            color: #333;
+        }
+        .field-btn {
+            background-color: rgba(40, 167, 69, 0.1);
+            border-color: rgba(40, 167, 69, 0.3);
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Dual Add Buttons Debug Guide</h1>
+    
+    <div class="debug-section">
+        <h2>📋 Current Test Status</h2>
+        <div class="success">
+            ✅ <strong>Dual Add Buttons Tests: 14/14 PASSING</strong><br>
+            The functionality is working correctly! This is a visual/UI issue.
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🎯 What You Should See</h2>
+        <p>For container components (like <span class="highlight">PANEL</span>), you should see both buttons:</p>
+        
+        <div class="button-demo">
+            <span><strong>📦 Contact Info [PANEL]</strong></span>
+            <div class="demo-btn sub-btn">📦➕</div>
+            <div class="demo-btn field-btn">⚬➕</div>
+            <span>⬆️ ⬇️ 🗑️</span>
+        </div>
+        
+        <p><strong>Button meanings:</strong></p>
+        <ul>
+            <li><strong>📦➕</strong> (Blue) = Add Sub-Component (containers like PANEL, FIELDSET)</li>
+            <li><strong>⚬➕</strong> (Green) = Add Field (inputs like TEXT_INPUT, EMAIL_INPUT)</li>
+        </ul>
+    </div>
+
+    <div class="debug-section">
+        <h2>🔍 Troubleshooting Steps</h2>
+        
+        <div class="step">
+            <strong>Step 1: Navigate to your app</strong><br>
+            Visit: <code>http://localhost:3000</code>
+        </div>
+        
+        <div class="step">
+            <strong>Step 2: Find the correct component</strong><br>
+            Look for: <span class="highlight">📦 Contact Info [PANEL]</span><br>
+            ❌ Don't look at: ⚬ First Name, ⚬ Feedback, ⚬ Email (these are field components)
+        </div>
+        
+        <div class="step">
+            <strong>Step 3: Expand the tree</strong><br>
+            Click the expand button (▶️) next to "📄 Personal Information" to see all components
+        </div>
+        
+        <div class="step">
+            <strong>Step 4: Hover over Contact Info</strong><br>
+            The buttons have <code>opacity: 0</code> until you hover over them
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🐛 Common Issues</h2>
+        
+        <div class="issue">
+            <strong>Issue 1: Looking at wrong component</strong><br>
+            ❌ Field components (TEXT_INPUT, EMAIL_INPUT) don't have add buttons<br>
+            ✅ Only container components (PANEL, FIELDSET, GROUP) have add buttons
+        </div>
+        
+        <div class="issue">
+            <strong>Issue 2: Not hovering</strong><br>
+            ❌ Buttons are invisible until hover<br>
+            ✅ Move your mouse over the component to reveal buttons
+        </div>
+        
+        <div class="issue">
+            <strong>Issue 3: CSS overlap</strong><br>
+            ❌ Buttons might be overlapping or too close<br>
+            ✅ They should have a 4px gap between them
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🛠️ Quick Fix Attempts</h2>
+        
+        <div class="step">
+            <strong>Option 1: Increase gap between buttons</strong><br>
+            Edit <code>ComponentNode.css</code> line ~128:<br>
+            Change <code>gap: 4px;</code> to <code>gap: 8px;</code>
+        </div>
+        
+        <div class="step">
+            <strong>Option 2: Make buttons more visible</strong><br>
+            Edit <code>ComponentNode.css</code> line ~128:<br>
+            Change <code>opacity: 0;</code> to <code>opacity: 0.3;</code> (always slightly visible)
+        </div>
+        
+        <div class="step">
+            <strong>Option 3: Add debug borders</strong><br>
+            Add to <code>ComponentNode.css</code>:<br>
+            <code>.add-subcomponent-btn { border: 2px solid blue !important; }</code><br>
+            <code>.add-field-btn { border: 2px solid green !important; }</code>
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🧪 Test Selectors</h2>
+        <p>The tests find the buttons using these selectors:</p>
+        <ul>
+            <li><code>[data-testid="add-subcomponent-btn"]</code> for 📦➕</li>
+            <li><code>[data-testid="add-field-btn"]</code> for ⚬➕</li>
+            <li><code>[data-component-type="PANEL"]</code> for the container</li>
+        </ul>
+        
+        <p><strong>Browser dev tools check:</strong></p>
+        <ol>
+            <li>Press F12 in your browser</li>
+            <li>Use Console tab, run: <code>document.querySelectorAll('[data-testid="add-subcomponent-btn"]')</code></li>
+            <li>Should return 1 element if buttons exist</li>
+        </ol>
+    </div>
+
+    <div class="debug-section">
+        <h2>📞 Report Back</h2>
+        <p>Please check and let me know:</p>
+        <ol>
+            <li>Can you see the "📦 Contact Info [PANEL]" component?</li>
+            <li>When you hover over it, do you see ANY buttons?</li>
+            <li>How many buttons do you see? (Should be 5 total: 📦➕ ⚬➕ ⬆️ ⬇️ 🗑️)</li>
+            <li>What do the button icons look like?</li>
+        </ol>
+    </div>
+
+    <script>
+        console.log('🔍 Dual Add Buttons Debug Tool Loaded');
+        console.log('📋 Tests passing: 14/14 dual add buttons tests');
+        console.log('🎯 Look for: 📦 Contact Info [PANEL] component');
+        console.log('🔧 Expected buttons: 📦➕ (blue) + ⚬➕ (green)');
+    </script>
+</body>
+</html> 

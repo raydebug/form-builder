@@ -184,22 +184,46 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
               </div>
             </div>
 
-            {/* Page Components */}
+            {/* Page Components - Tree View (Read-Only) */}
             {isExpanded && (
               <div className="page-components">
                 {components.map(component => (
-                  <ComponentNode
+                  <div
                     key={component.id}
-                    component={component}
-                    onSelectNode={onSelectNode}
-                    selectedNodeId={selectedNodeId}
-                    selectedNodeType={selectedNodeType}
-                    onCreateComponent={onCreateComponent}
-                    onDeleteComponent={onDeleteComponent}
-                    onMoveComponent={onMoveComponent}
-                    depth={1}
-                    siblingComponents={components}
-                  />
+                    className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === component.id ? 'selected-node' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectNode(component, 'component');
+                    }}
+                    style={{ marginLeft: `${20}px` }}
+                  >
+                    <span className="component-icon">
+                      {['PANEL', 'CONTAINER', 'FIELDSET', 'GROUP', 'SECTION'].includes(component.componentType) ? '📦' : '⚬'}
+                    </span>
+                    <span className="component-label">{component.label}</span>
+                    <span className="component-type-badge">[{component.componentType}]</span>
+                    
+                    {/* Render child components recursively for tree view */}
+                    {component.childComponents && component.childComponents.length > 0 && (
+                      <div className="tree-child-components" style={{ marginLeft: '20px' }}>
+                        {component.childComponents.map(child => (
+                          <div
+                            key={child.id}
+                            className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === child.id ? 'selected-node' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelectNode(child, 'component');
+                            }}
+                            style={{ marginLeft: `${20}px` }}
+                          >
+                            <span className="component-icon">⚬</span>
+                            <span className="component-label">{child.label}</span>
+                            <span className="component-type-badge">[{child.componentType}]</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
                 {components.length === 0 && (
                   <div className="no-components-message">

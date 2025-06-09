@@ -277,6 +277,56 @@
   flex-shrink: 0;
 }
 
+/* Tree Component Nodes - Read-only display */
+.tree-component-node {
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+}
+
+.tree-component-node:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.tree-component-node.selected-node {
+  background-color: rgba(0, 123, 255, 0.2);
+  border: 1px solid #007bff;
+}
+
+.tree-component-node .component-icon {
+  font-size: 12px;
+  min-width: 16px;
+}
+
+.tree-component-node .component-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.tree-component-node .component-type-badge {
+  font-size: 10px;
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 1px 4px;
+  border-radius: 2px;
+  margin-left: auto;
+}
+
+.tree-child-components {
+  margin-top: 4px;
+}
+
+.tree-child-components .tree-component-node {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .node-content {

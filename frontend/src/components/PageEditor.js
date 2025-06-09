@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ComponentNode from './ComponentNode';
 import './PageEditor.css';
 
 const PageEditor = ({ page, selectedNode, onSelectNode, onCreateComponent, onDeleteComponent, onMoveComponent }) => {
@@ -93,106 +94,7 @@ const PageEditor = ({ page, selectedNode, onSelectNode, onCreateComponent, onDel
     }
   };
 
-  const renderComponent = (component, depth = 0, parentComponents = []) => {
-    const isSelected = selectedNode && selectedNode.id === component.id && selectedNode.nodeType === 'component';
-    
-    // Define container components (same as in ComponentNode)
-    const CONTAINER_COMPONENT_TYPES = [
-      'PANEL', 'CONTAINER', 'FIELDSET', 'GROUP', 'SECTION',
-      'CARD', 'TAB_PANEL', 'ACCORDION'
-    ];
-    
-    const isContainerComponent = CONTAINER_COMPONENT_TYPES.includes(component.componentType);
-    
-    return (
-      <div
-        key={component.id}
-        className={`page-editor-component ${isSelected ? 'selected' : ''} ${isContainerComponent ? 'container-type' : 'field-type'}`}
-        data-type={component.componentType}
-        style={{ marginLeft: `${depth * 20}px` }}
-        onClick={(e) => handleComponentClick(component, e)}
-      >
-        <div className="component-header">
-          <span className="component-icon">
-            {isContainerComponent ? '📦' : '⚬'}
-          </span>
-          <span className="component-type">{component.componentType}</span>
-          <span className="component-label">{component.label}</span>
-          
-          <div className="component-actions" onClick={(e) => e.stopPropagation()}>
-            {/* Add button - only for container components */}
-            {isContainerComponent && (
-              <button
-                className="action-btn add-btn"
-                onClick={(e) => { 
-                  e.stopPropagation(); 
-                  onCreateComponent && onCreateComponent(component.id, null, 'nested'); 
-                }}
-                title="Add Child Component"
-              >
-                ➕
-              </button>
-            )}
-            
-            <button
-              className="action-btn move-up-btn"
-              onClick={(e) => handleMoveComponentUp(component.id, parentComponents, e)}
-              title="Move Up"
-              disabled={parentComponents.findIndex(c => c.id === component.id) === 0}
-            >
-              ⬆️
-            </button>
-            <button
-              className="action-btn move-down-btn"
-              onClick={(e) => handleMoveComponentDown(component.id, parentComponents, e)}
-              title="Move Down"
-              disabled={parentComponents.findIndex(c => c.id === component.id) === parentComponents.length - 1}
-            >
-              ⬇️
-            </button>
-            
-            <button
-              className="action-btn delete-btn"
-              onClick={(e) => handleDeleteComponent(component.id, e)}
-              title={`Delete ${isContainerComponent ? 'Container' : 'Field'}`}
-            >
-              🗑️
-            </button>
-          </div>
-        </div>
-        
-        {component.attributes && (
-          <div className="component-attributes">
-            <small>{component.attributes}</small>
-          </div>
-        )}
-        
-        {/* Render child components - only for container components */}
-        {isContainerComponent && component.childComponents && component.childComponents.length > 0 && (
-          <div className="component-children">
-            <div className="children-label">Child Components:</div>
-            {component.childComponents.map(child => renderComponent(child, depth + 1, component.childComponents))}
-          </div>
-        )}
-        
-        {/* Empty state for container components */}
-        {isContainerComponent && (!component.childComponents || component.childComponents.length === 0) && (
-          <div className="empty-container-state" style={{ marginLeft: `${(depth + 1) * 20}px` }}>
-            <span>No child components</span>
-            <button
-              className="add-first-child-btn"
-              onClick={(e) => { 
-                e.stopPropagation(); 
-                onCreateComponent && onCreateComponent(component.id, null, 'nested'); 
-              }}
-            >
-              Add First Child
-            </button>
-          </div>
-        )}
-      </div>
-    );
-  };
+  // Removed renderComponent function - now using ComponentNode directly
 
   const isPageSelected = selectedNode && selectedNode.id === page.id && selectedNode.nodeType === 'page';
 
@@ -262,7 +164,20 @@ const PageEditor = ({ page, selectedNode, onSelectNode, onCreateComponent, onDel
         
         <div className="page-components">
           {page.components && page.components.length > 0 ? (
-            page.components.map(component => renderComponent(component, 0, page.components))
+            page.components.map(component => (
+              <ComponentNode
+                key={component.id}
+                component={component}
+                onSelectNode={onSelectNode}
+                selectedNodeId={selectedNode?.id}
+                selectedNodeType={selectedNode?.nodeType}
+                onCreateComponent={onCreateComponent}
+                onDeleteComponent={onDeleteComponent}
+                onMoveComponent={onMoveComponent}
+                depth={0}
+                siblingComponents={page.components}
+              />
+            ))
           ) : (
             <div className="no-components">
               <p>No components in this page</p>

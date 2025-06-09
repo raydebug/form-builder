@@ -125,14 +125,16 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
     <div className="form-tree">
       {/* Form Node */}
       <div
-        className={`form-node ${isFormSelected ? 'selected-node' : ''}`}
+        className={`tree-item form-node ${isFormSelected ? 'selected' : ''}`}
         onClick={handleFormSelect}
       >
-        <div className="node-content">
-          <span className="node-text">📋 {form.name}</span>
-          <div className="node-actions" onClick={(e) => e.stopPropagation()}>
+        <div className="tree-item-content">
+          <span className="tree-checkbox">{isFormSelected ? '☑' : '☐'}</span>
+          <span className="tree-icon">📋</span>
+          <span className="tree-text">{form.name}</span>
+          <div className="tree-actions" onClick={(e) => e.stopPropagation()}>
             <button
-              className="action-btn add-btn"
+              className="tree-action-btn"
               onClick={handleShowAddPage}
               title="Add Page"
             >
@@ -172,30 +174,33 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
           <div key={page.id} className="page-container">
             {/* Page Node */}
             <div
-              className={`page-node ${isPageSelected ? 'selected-node' : ''}`}
+              className={`tree-item page-node level-1 ${isPageSelected ? 'selected' : ''}`}
               onClick={(e) => handlePageSelect(page, e)}
             >
-              <div className="node-content">
+              <div className="tree-item-content">
+                <span className="tree-indent"></span>
                 <button
-                  className="expand-btn"
+                  className="tree-expand-btn"
                   onClick={(e) => {
                     e.stopPropagation();
                     togglePageExpansion(page.id);
                   }}
                 >
-                  {isExpanded ? '📂' : '📁'}
+                  {isExpanded ? '▼' : '▶'}
                 </button>
-                <span className="node-text">📄 {page.name}</span>
-                <div className="node-actions" onClick={(e) => e.stopPropagation()}>
+                <span className="tree-checkbox">{isPageSelected ? '☑' : '☐'}</span>
+                <span className="tree-icon">📄</span>
+                <span className="tree-text">{page.name}</span>
+                <div className="tree-actions" onClick={(e) => e.stopPropagation()}>
                   <button
-                    className="action-btn add-btn"
+                    className="tree-action-btn"
                     onClick={() => onCreateComponent && onCreateComponent(page.id)}
                     title="Add Component"
                   >
                     ➕
                   </button>
                   <button
-                    className="action-btn move-up-btn"
+                    className="tree-action-btn"
                     onClick={() => onMoveComponent && onMoveComponent(page.id, 'page', 'up')}
                     title="Move Up"
                     disabled={pages.indexOf(page) === 0}
@@ -203,7 +208,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                     ⬆️
                   </button>
                   <button
-                    className="action-btn move-down-btn"
+                    className="tree-action-btn"
                     onClick={() => onMoveComponent && onMoveComponent(page.id, 'page', 'down')}
                     title="Move Down"
                     disabled={pages.indexOf(page) === pages.length - 1}
@@ -211,7 +216,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                     ⬇️
                   </button>
                   <button
-                    className="action-btn delete-btn"
+                    className="tree-action-btn"
                     onClick={(e) => handleDeletePage(page.id, e)}
                     title="Delete Page"
                   >
@@ -227,51 +232,66 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                 {components.map(component => (
                   <div
                     key={component.id}
-                    className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === component.id ? 'selected-node' : ''}`}
+                    className={`tree-item component-node level-2 ${selectedNodeType === 'component' && selectedNodeId === component.id ? 'selected' : ''}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       onSelectNode(component, 'component');
                     }}
-                    style={{ marginLeft: `${20}px` }}
                   >
-                    <span className="component-icon">
-                      {getComponentIcon(component.componentType)}
-                    </span>
-                    <span className="component-label">{component.label}</span>
+                    <div className="tree-item-content">
+                      <span className="tree-indent"></span>
+                      <span className="tree-indent"></span>
+                      <span className="tree-checkbox">{selectedNodeType === 'component' && selectedNodeId === component.id ? '☑' : '☐'}</span>
+                      <span className="tree-icon">
+                        {getComponentIcon(component.componentType)}
+                      </span>
+                      <span className="tree-text">{component.label}</span>
+                    </div>
                     
                     {/* Render child components recursively for tree view */}
                     {component.childComponents && component.childComponents.length > 0 && (
-                      <div className="tree-child-components" style={{ marginLeft: '20px' }}>
+                      <div className="tree-child-components">
                         {component.childComponents.map(child => (
                           <div
                             key={child.id}
-                            className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === child.id ? 'selected-node' : ''}`}
+                            className={`tree-item component-node level-3 ${selectedNodeType === 'component' && selectedNodeId === child.id ? 'selected' : ''}`}
                             onClick={(e) => {
                               e.stopPropagation();
                               onSelectNode(child, 'component');
                             }}
-                            style={{ marginLeft: `${20}px` }}
                           >
-                            <span className="component-icon">
-                              {getComponentIcon(child.componentType)}
-                            </span>
-                            <span className="component-label">{child.label}</span>
+                            <div className="tree-item-content">
+                              <span className="tree-indent"></span>
+                              <span className="tree-indent"></span>
+                              <span className="tree-indent"></span>
+                              <span className="tree-checkbox">{selectedNodeType === 'component' && selectedNodeId === child.id ? '☑' : '☐'}</span>
+                              <span className="tree-icon">
+                                {getComponentIcon(child.componentType)}
+                              </span>
+                              <span className="tree-text">{child.label}</span>
+                            </div>
                             
                             {/* Recursive rendering for deeper nesting */}
                             {child.childComponents && child.childComponents.length > 0 && (
-                              <div className="tree-child-components" style={{ marginLeft: '20px' }}>
+                              <div className="tree-child-components">
                                 {child.childComponents.map(grandchild => (
                                   <div
                                     key={grandchild.id}
-                                    className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === grandchild.id ? 'selected-node' : ''}`}
+                                    className={`tree-item component-node level-4 ${selectedNodeType === 'component' && selectedNodeId === grandchild.id ? 'selected' : ''}`}
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       onSelectNode(grandchild, 'component');
                                     }}
-                                    style={{ marginLeft: `${20}px` }}
                                   >
-                                    <span className="component-icon">{getComponentIcon(grandchild.componentType)}</span>
-                                    <span className="component-label">{grandchild.label}</span>
+                                    <div className="tree-item-content">
+                                      <span className="tree-indent"></span>
+                                      <span className="tree-indent"></span>
+                                      <span className="tree-indent"></span>
+                                      <span className="tree-indent"></span>
+                                      <span className="tree-checkbox">{selectedNodeType === 'component' && selectedNodeId === grandchild.id ? '☑' : '☐'}</span>
+                                      <span className="tree-icon">{getComponentIcon(grandchild.componentType)}</span>
+                                      <span className="tree-text">{grandchild.label}</span>
+                                    </div>
                                   </div>
                                 ))}
                               </div>

@@ -39,7 +39,7 @@
 - [x] **🔄 Panel Coordination**: Selection synchronization between tree and editor
 - [x] **🎯 Separation of Concerns**: Clear division of responsibilities
 - [x] **✅ Dual Add Buttons**: Container components have 📦➕ and ⚬➕ buttons in PageEditor
-- [x] **✅ Compact FormTree Display**: Descriptive icons only (📝 TEXT_INPUT, 🗂️ FIELDSET, 📧 EMAIL_INPUT, etc.)
+- [x] **✅ Hierarchical FormTree Display**: Document-style tree with checkboxes, proper indentation, and expand/collapse
 - [ ] **UI Test Refinement**: Some edge cases need test adjustments
 
 ### 🔄 **IN PROGRESS TASKS**
@@ -49,32 +49,41 @@
 - [ ] **Component Visibility**: E2E tests can't find rendered form elements
 - [ ] **Data Loading**: Backend data loads correctly but UI doesn't display
 
-### ✅ **FEATURE COMPLETED: Compact FormTree Display**
+### ✅ **FEATURE COMPLETED: Hierarchical FormTree Display**
 
 #### Feature Description
-The FormTree panel now displays components with **descriptive icons and names only**:
+The FormTree panel now uses a **document-style hierarchical tree structure**:
 
-**Before**: `📦 Contact Info [FIELDSET]` (icon + name + type badge)
-**After**: `🗂️ Contact Info` (descriptive icon + name only)
+**Before**: Simple tree with basic icons and action buttons always visible
+**After**: Professional tree with checkboxes, proper indentation, expand/collapse, and hover-revealed actions
+
+#### Visual Hierarchy System ✅
+- **Form Level**: Bold header with checkbox and form icon (📋)
+- **Page Level**: Indented with expand arrows (▶/▼) and page icons (📄) 
+- **Component Levels**: Progressive indentation with descriptive type icons
+- **Selection State**: Clear checkbox indicators (☐ for unselected, ☑ for selected)
+
+#### Enhanced UX Features ✅
+- **Clean Appearance**: Action buttons only appear on hover
+- **Visual Feedback**: Blue highlighting for selected items
+- **Professional Styling**: Modern color scheme and typography
+- **Structured Layout**: Similar to IDE project explorers (VS Code, IntelliJ)
+- **Proper Spacing**: Clean indentation system with visual hierarchy
 
 #### Icon Mapping System ✅
 - **Container Components**: 📦 PANEL/CONTAINER, 🗂️ FIELDSET, 📁 GROUP, 📋 SECTION, 🃏 CARD, 📑 TAB_PANEL, 🪗 ACCORDION
-- **Input Components**: 📝 TEXT_INPUT, 📧 EMAIL_INPUT, 🔒 PASSWORD_INPUT, 📄 TEXT_AREA, 🔢 NUMBER_INPUT, 📅 DATE_INPUT, ⏰ TIME_INPUT, 📎 FILE_INPUT, 👁️‍🗨️ HIDDEN_INPUT
+- **Input Components**: 📝 TEXT_INPUT, 📧 EMAIL_INPUT, 🔒 PASSWORD_INPUT, 📄 TEXT_AREA, 🔢 NUMBER_INPUT, 📅 DATE_INPUT, ⏰ TIME_INPUT, 📎 FILE_INPUT
 - **Selection Components**: ☑️ CHECKBOX, 🔘 RADIO, 📋 SELECT
 - **Action Components**: 🔲 BUTTON, ✅ SUBMIT_BUTTON
 
-#### Benefits ✅
-- **30-50% Space Savings**: Removes redundant component type badges
-- **Better UX**: Cleaner, less cluttered appearance
-- **Enhanced Recognition**: Descriptive icons communicate purpose at a glance
-- **Mobile Friendly**: Better for narrow screen widths
-- **Accessibility**: Focus on component names (primary identifier)
-
-#### Implementation ✅
-- Created `getComponentIcon()` helper function with comprehensive icon mapping
-- Updated all component display locations (tree, nested components)
-- Removed `component-type-badge` elements from all rendering
-- Maintained functional compatibility with existing API and E2E tests
+#### Technical Implementation ✅
+- Redesigned tree item structure with `tree-item`, `tree-item-content` components
+- Added checkbox selection indicators with proper state management
+- Implemented level-based indentation using `tree-indent` spans
+- Created modern expand/collapse arrows (▶/▼)
+- Added hover-based action button reveal system
+- Applied professional color scheme and typography
+- Maintained all existing functionality and E2E test compatibility
 
 ### ✅ **FEATURE COMPLETED: Dual Add Buttons**
 

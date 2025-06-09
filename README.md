@@ -20,7 +20,7 @@ A web-based form builder application with a hierarchical structure that allows u
 - ✅ Test coverage for core functionality
 - ✅ Pages identified by names instead of numbers for better usability
 - ✅ **NEW**: Dual add buttons feature with comprehensive E2E testing (14/14 tests passing)
-- ✅ **NEW**: Compact FormTree display with descriptive component type icons
+- ✅ **NEW**: Hierarchical FormTree display with checkboxes and proper indentation
 
 ## Architecture
 
@@ -95,13 +95,18 @@ A web-based form builder application with a hierarchical structure that allows u
 3. **Smart Buttons**: Move buttons automatically disable at boundaries (first/last items)
 4. **Real-time Updates**: Order changes reflect immediately in all panels
 
-#### Compact FormTree Display (NEW)
+#### Hierarchical FormTree Display (NEW)
 
-**Enhanced Navigation Panel**:
-- **Descriptive Icons**: Each component type has a unique, meaningful icon
-- **Space Efficient**: Removed redundant component type badges for cleaner appearance
-- **Better UX**: 30-50% less horizontal space usage, better for narrow screens
-- **Visual Clarity**: Icons clearly communicate component purpose at a glance
+**Document-Style Tree Navigation**:
+- **Checkbox Selection**: Visual checkboxes (☐/☑) show selection state
+- **Proper Indentation**: Clean hierarchical structure with visual indents
+- **Expand/Collapse**: Modern arrow indicators (▶/▼) for tree expansion
+- **Level-Based Styling**: Different visual treatments for forms, pages, and components
+
+**Visual Hierarchy System**:
+- **Level 0**: Form root (bold, highlighted background)
+- **Level 1**: Pages (indented with expand arrows)
+- **Level 2+**: Components (deeper indentation with descriptive icons)
 
 **Icon System**:
 - **Container Components**: 📦 PANEL/CONTAINER, 🗂️ FIELDSET, 📁 GROUP, 📋 SECTION, 🃏 CARD, 📑 TAB_PANEL, 🪗 ACCORDION
@@ -109,11 +114,11 @@ A web-based form builder application with a hierarchical structure that allows u
 - **Selection Components**: ☑️ CHECKBOX, 🔘 RADIO, 📋 SELECT  
 - **Action Components**: 🔲 BUTTON, ✅ SUBMIT_BUTTON
 
-**Benefits**:
-- Cleaner, less cluttered tree navigation
-- Faster component type recognition through visual icons
-- More screen space for component names and structure
-- Better mobile and narrow viewport experience
+**Enhanced UX Features**:
+- Hover-revealed action buttons for clean appearance
+- Clear visual selection feedback with blue highlighting
+- Smooth transitions and professional color scheme
+- Structured layout similar to modern IDE project explorers
 
 #### Component Types Supported
 

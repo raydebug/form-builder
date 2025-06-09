@@ -129,14 +129,22 @@
 /* Action Buttons */
 .tree-actions {
   display: flex;
-  gap: 1px;
+  gap: 2px;
   opacity: 0;
   transition: opacity 0.15s ease;
-  margin-left: 2px;
+  margin-left: 4px;
 }
 
 .tree-item:hover .tree-actions {
   opacity: 1 !important;
+}
+
+/* Make actions more visible for pages specifically */
+.page-node:hover .tree-actions {
+  opacity: 1 !important;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 4px;
+  padding: 1px;
 }
 
 .tree-action-btn {
@@ -144,19 +152,22 @@
   border: none;
   color: #666;
   cursor: pointer;
-  padding: 1px 2px;
+  padding: 2px 3px;
   border-radius: 2px;
-  font-size: 10px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
+  transition: all 0.15s ease;
 }
 
 .tree-action-btn:hover {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .tree-action-btn:disabled {

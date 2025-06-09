@@ -263,7 +263,10 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                   </button>
                   <button
                     className="tree-action-btn"
-                    onClick={() => onMoveComponent && onMoveComponent(page.id, 'page', 'up')}
+                    onClick={() => {
+                      console.log('🖱️ Move Up button clicked for page:', page.id, page.name);
+                      onMoveComponent && onMoveComponent(page.id, 'page', 'up');
+                    }}
                     title="Move Up"
                     disabled={pages.indexOf(page) === 0}
                   >
@@ -271,7 +274,10 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                   </button>
                   <button
                     className="tree-action-btn"
-                    onClick={() => onMoveComponent && onMoveComponent(page.id, 'page', 'down')}
+                    onClick={() => {
+                      console.log('🖱️ Move Down button clicked for page:', page.id, page.name);
+                      onMoveComponent && onMoveComponent(page.id, 'page', 'down');
+                    }}
                     title="Move Down"
                     disabled={pages.indexOf(page) === pages.length - 1}
                   >

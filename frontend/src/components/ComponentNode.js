@@ -159,15 +159,23 @@ const ComponentNode = ({
   // Move component handlers
   const handleMoveUp = (e) => {
     e.stopPropagation();
+    console.log('🖱️ Move Up clicked for component:', component.id, component.label);
+    console.log('📋 Available siblingComponents:', siblingComponents?.length || 'undefined');
     if (onMoveComponent) {
-      onMoveComponent(component.id, 'component', 'up', siblingComponents);
+      // Pass siblingComponents only if it's a valid array, otherwise let the parent function figure it out
+      const validSiblings = Array.isArray(siblingComponents) && siblingComponents.length > 0 ? siblingComponents : null;
+      onMoveComponent(component.id, 'component', 'up', validSiblings);
     }
   };
 
   const handleMoveDown = (e) => {
     e.stopPropagation();
+    console.log('🖱️ Move Down clicked for component:', component.id, component.label);
+    console.log('📋 Available siblingComponents:', siblingComponents?.length || 'undefined');
     if (onMoveComponent) {
-      onMoveComponent(component.id, 'component', 'down', siblingComponents);
+      // Pass siblingComponents only if it's a valid array, otherwise let the parent function figure it out
+      const validSiblings = Array.isArray(siblingComponents) && siblingComponents.length > 0 ? siblingComponents : null;
+      onMoveComponent(component.id, 'component', 'down', validSiblings);
     }
   };
 

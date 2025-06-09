@@ -196,7 +196,11 @@ function App() {
   // ===== NEW: MOVE/REORDER OPERATIONS =====
 
   const handleMoveComponent = async (itemId, itemType, direction, parentInfo = null) => {
-    if (!currentForm) return;
+    console.log('🔄 Move operation called:', { itemId, itemType, direction, parentInfo });
+    if (!currentForm) {
+      console.log('❌ No current form available');
+      return;
+    }
 
     try {
       if (itemType === 'page') {
@@ -205,70 +209,144 @@ function App() {
         const currentIndex = pages.findIndex(p => p.id === itemId);
         
         if (direction === 'up' && currentIndex > 0) {
+          console.log('⬆️ Moving page up:', { currentIndex, pageId: itemId });
           const newOrder = [...pages];
           [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
           const pageIds = newOrder.map(p => p.id);
+          console.log('📤 Calling reorderPages API with:', pageIds);
           await reorderPages(currentForm.id, pageIds);
         } else if (direction === 'down' && currentIndex < pages.length - 1) {
+          console.log('⬇️ Moving page down:', { currentIndex, pageId: itemId });
           const newOrder = [...pages];
           [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
           const pageIds = newOrder.map(p => p.id);
+          console.log('📤 Calling reorderPages API with:', pageIds);
           await reorderPages(currentForm.id, pageIds);
+        } else {
+          console.log('🚫 Page move blocked:', { direction, currentIndex, totalPages: pages.length });
         }
       } else if (itemType === 'component') {
+        console.log('🔧 Processing component move operation...');
+        
         // Reordering components - need to find the parent context
-        if (!parentInfo) {
+        if (!parentInfo || !parentInfo.siblingComponents) {
+          console.log('🔍 No parentInfo provided, searching for component in form...');
+          
           // Find which page this component belongs to
           let parentPageId = null;
           let siblingComponents = [];
           
+          // Check if currentForm and pages exist
+          if (!currentForm || !currentForm.pages) {
+            console.log('❌ No form or pages available');
+            throw new Error('No form data available for component reordering');
+          }
+          
           for (const page of currentForm.pages) {
             const pageComponents = page.components || [];
+            console.log(`🔍 Checking page ${page.id} with ${pageComponents.length} components`);
+            
+            // Check top-level components first
             if (pageComponents.find(c => c.id === itemId)) {
               parentPageId = page.id;
               siblingComponents = pageComponents;
+              console.log(`✅ Found component ${itemId} in page ${page.id} at top level`);
               break;
             }
+            
+            // Also check nested components
+            for (const component of pageComponents) {
+              if (component.childComponents && component.childComponents.find(c => c.id === itemId)) {
+                parentPageId = component.id;
+                siblingComponents = component.childComponents;
+                console.log(`✅ Found component ${itemId} nested in component ${component.id}`);
+                break;
+              }
+            }
+            
+            if (parentPageId) break;
           }
           
-          if (parentPageId) {
-            const currentIndex = siblingComponents.findIndex(c => c.id === itemId);
-            
-            if (direction === 'up' && currentIndex > 0) {
-              const newOrder = [...siblingComponents];
-              [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
-              const componentIds = newOrder.map(c => c.id);
-              await reorderComponents(parentPageId, 'page', componentIds);
-            } else if (direction === 'down' && currentIndex < siblingComponents.length - 1) {
-              const newOrder = [...siblingComponents];
-              [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
-              const componentIds = newOrder.map(c => c.id);
-              await reorderComponents(parentPageId, 'page', componentIds);
-            }
+          if (!parentPageId) {
+            console.log('❌ Component not found in any page');
+            throw new Error(`Component ${itemId} not found in form structure`);
           }
-        } else {
-          // Use provided parent info for nested components
-          const { containerId, containerType, siblingComponents } = parentInfo;
+          
+          if (!siblingComponents || !Array.isArray(siblingComponents)) {
+            console.log('❌ Invalid sibling components array');
+            throw new Error('Invalid sibling components structure');
+          }
+          
+          console.log(`📍 Component context: parentPageId=${parentPageId}, siblings=${siblingComponents.length}`);
           const currentIndex = siblingComponents.findIndex(c => c.id === itemId);
           
+          if (currentIndex === -1) {
+            console.log('❌ Component not found in sibling list');
+            throw new Error(`Component ${itemId} not found in sibling components`);
+          }
+          
+          console.log(`📍 Current index: ${currentIndex} of ${siblingComponents.length}`);
+          
           if (direction === 'up' && currentIndex > 0) {
+            console.log('⬆️ Moving component up');
             const newOrder = [...siblingComponents];
             [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
             const componentIds = newOrder.map(c => c.id);
-            await reorderComponents(containerId, containerType, componentIds);
+            console.log('📤 Calling reorderComponents with:', { parentPageId, componentIds });
+            await reorderComponents(parentPageId, 'page', componentIds);
           } else if (direction === 'down' && currentIndex < siblingComponents.length - 1) {
+            console.log('⬇️ Moving component down');
             const newOrder = [...siblingComponents];
             [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
             const componentIds = newOrder.map(c => c.id);
+            console.log('📤 Calling reorderComponents with:', { parentPageId, componentIds });
+            await reorderComponents(parentPageId, 'page', componentIds);
+          } else {
+            console.log('🚫 Component move blocked:', { direction, currentIndex, totalComponents: siblingComponents.length });
+          }
+        } else {
+          console.log('🔧 Using provided parentInfo:', parentInfo);
+          
+          // Use provided parent info for nested components  
+          const { containerId, containerType, siblingComponents } = parentInfo;
+          
+          if (!siblingComponents || !Array.isArray(siblingComponents)) {
+            console.log('❌ Invalid siblingComponents in parentInfo');
+            throw new Error('Invalid siblingComponents provided in parentInfo');
+          }
+          
+          const currentIndex = siblingComponents.findIndex(c => c.id === itemId);
+          
+          if (currentIndex === -1) {
+            console.log('❌ Component not found in provided sibling list');
+            throw new Error(`Component ${itemId} not found in provided sibling components`);
+          }
+          
+          if (direction === 'up' && currentIndex > 0) {
+            console.log('⬆️ Moving nested component up');
+            const newOrder = [...siblingComponents];
+            [newOrder[currentIndex], newOrder[currentIndex - 1]] = [newOrder[currentIndex - 1], newOrder[currentIndex]];
+            const componentIds = newOrder.map(c => c.id);
+            console.log('📤 Calling reorderComponents with:', { containerId, containerType, componentIds });
             await reorderComponents(containerId, containerType, componentIds);
+          } else if (direction === 'down' && currentIndex < siblingComponents.length - 1) {
+            console.log('⬇️ Moving nested component down');
+            const newOrder = [...siblingComponents];
+            [newOrder[currentIndex], newOrder[currentIndex + 1]] = [newOrder[currentIndex + 1], newOrder[currentIndex]];
+            const componentIds = newOrder.map(c => c.id);
+            console.log('📤 Calling reorderComponents with:', { containerId, containerType, componentIds });
+            await reorderComponents(containerId, containerType, componentIds);
+          } else {
+            console.log('🚫 Nested component move blocked:', { direction, currentIndex, totalComponents: siblingComponents.length });
           }
         }
       }
       
-      console.log(`${itemType} moved ${direction} successfully`);
+      console.log(`✅ ${itemType} moved ${direction} successfully`);
+      console.log('🔄 Refreshing form data...');
       await fetchAndSetForm(currentForm.id);
     } catch (err) {
-      console.error(`Failed to move ${itemType}:`, err);
+      console.error(`❌ Failed to move ${itemType}:`, err);
       setError(`Failed to move ${itemType}: ${err.message}`);
     }
   };

@@ -187,7 +187,7 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
             {/* Page Components - Tree View (Read-Only) */}
             {isExpanded && (
               <div className="page-components">
-                {components.map(component => (
+                {components.filter(component => !component.parentComponent).map(component => (
                   <div
                     key={component.id}
                     className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === component.id ? 'selected-node' : ''}`}
@@ -216,16 +216,39 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
                             }}
                             style={{ marginLeft: `${20}px` }}
                           >
-                            <span className="component-icon">⚬</span>
+                            <span className="component-icon">
+                              {['PANEL', 'CONTAINER', 'FIELDSET', 'GROUP', 'SECTION'].includes(child.componentType) ? '📦' : '⚬'}
+                            </span>
                             <span className="component-label">{child.label}</span>
                             <span className="component-type-badge">[{child.componentType}]</span>
+                            
+                            {/* Recursive rendering for deeper nesting */}
+                            {child.childComponents && child.childComponents.length > 0 && (
+                              <div className="tree-child-components" style={{ marginLeft: '20px' }}>
+                                {child.childComponents.map(grandchild => (
+                                  <div
+                                    key={grandchild.id}
+                                    className={`tree-component-node ${selectedNodeType === 'component' && selectedNodeId === grandchild.id ? 'selected-node' : ''}`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onSelectNode(grandchild, 'component');
+                                    }}
+                                    style={{ marginLeft: `${20}px` }}
+                                  >
+                                    <span className="component-icon">⚬</span>
+                                    <span className="component-label">{grandchild.label}</span>
+                                    <span className="component-type-badge">[{grandchild.componentType}]</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
                     )}
                   </div>
                 ))}
-                {components.length === 0 && (
+                {components.filter(component => !component.parentComponent).length === 0 && (
                   <div className="no-components-message">
                     <span>No components yet</span>
                     <button

@@ -37,31 +37,31 @@
 .tree-item-content {
   display: flex;
   align-items: center;
-  padding: 1px 4px;
+  padding: 1px 2px 1px 0px;
   min-height: 16px;
 }
 
 /* Indentation System */
 .tree-indent {
-  width: 12px;
+  width: 10px;
   flex-shrink: 0;
 }
 
-/* Level-specific styling */
+/* Level-specific styling - push text as far left as possible */
 .tree-item.level-1 .tree-item-content {
-  padding-left: 2px;
+  padding-left: 0px;
 }
 
 .tree-item.level-2 .tree-item-content {
-  padding-left: 1px;
+  padding-left: 0px;
 }
 
 .tree-item.level-3 .tree-item-content {
-  padding-left: 1px;
+  padding-left: 0px;
 }
 
 .tree-item.level-4 .tree-item-content {
-  padding-left: 1px;
+  padding-left: 0px;
 }
 
 /* Expand/Collapse Button */
@@ -71,13 +71,13 @@
   color: #666;
   cursor: pointer;
   padding: 0;
-  margin-right: 2px;
-  width: 9px;
-  height: 9px;
+  margin-right: 1px;
+  width: 8px;
+  height: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 8px;
+  font-size: 7px;
   flex-shrink: 0;
 }
 
@@ -90,19 +90,19 @@
 /* Checkbox Styling */
 .tree-checkbox {
   color: #2196f3;
-  margin-right: 3px;
-  font-size: 10px;
+  margin-right: 2px;
+  font-size: 9px;
   flex-shrink: 0;
-  width: 10px;
+  width: 8px;
   text-align: center;
 }
 
 /* Icon Styling */
 .tree-icon {
-  margin-right: 3px;
-  font-size: 11px;
+  margin-right: 2px;
+  font-size: 10px;
   flex-shrink: 0;
-  width: 12px;
+  width: 10px;
   text-align: center;
 }
 
@@ -128,7 +128,7 @@
   gap: 1px;
   opacity: 0;
   transition: opacity 0.15s ease;
-  margin-left: 4px;
+  margin-left: 2px;
 }
 
 .tree-item:hover .tree-actions {
@@ -170,6 +170,10 @@
   background-color: #f8f9fa;
   border-bottom: 1px solid #e1e4e8;
   font-weight: 500;
+}
+
+.form-node .tree-item-content {
+  padding-left: 0px;
 }
 
 .form-node .tree-text {

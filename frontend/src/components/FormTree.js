@@ -44,13 +44,11 @@ const FormTree = ({ form, onSelectNode, selectedNodeId, selectedNodeType, onCrea
     return iconMap[componentType] || '⚬';
   };
 
-  // Auto-expand first page when form loads
+  // Pages collapsed by default - no auto-expansion
   useEffect(() => {
     if (form && form.pages && form.pages.length > 0) {
-      setExpandedPages(prev => ({
-        ...prev,
-        [form.pages[0].id]: true
-      }));
+      // All pages start collapsed by default
+      setExpandedPages({});
     }
   }, [form]);
 

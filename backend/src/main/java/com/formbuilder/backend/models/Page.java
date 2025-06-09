@@ -17,6 +17,9 @@ public class Page {
 
     private String name;
 
+    @Column(name = "order_index")
+    private Integer orderIndex = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
     @JsonBackReference("form-pages")
@@ -50,6 +53,14 @@ public class Page {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(Integer orderIndex) {
+        this.orderIndex = orderIndex;
     }
 
     public Form getForm() {

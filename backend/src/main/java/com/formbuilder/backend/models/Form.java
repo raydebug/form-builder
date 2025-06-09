@@ -40,6 +40,7 @@ public class Form {
 
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("form-pages")
+    @OrderBy("orderIndex ASC")
     private List<Page> pages = new ArrayList<>();
 
     // Constructors

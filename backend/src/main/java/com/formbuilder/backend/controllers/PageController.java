@@ -83,8 +83,16 @@ public class PageController {
             throw new IllegalArgumentException("pageIds array is required");
         }
 
-        // Since pages now have names instead of numbers, we'll just return them in the requested order
-        // The actual ordering logic could be implemented with a separate orderIndex field if needed
+        // Update the orderIndex for each page based on the new order
+        for (int i = 0; i < pageIds.size(); i++) {
+            Long pageId = pageIds.get(i);
+            Page page = pageRepository.findById(pageId)
+                    .orElseThrow(() -> new PageNotFoundException("Page not found with id: " + pageId));
+            page.setOrderIndex(i);
+            pageRepository.save(page);
+        }
+
+        // Return the pages in the new order
         List<Page> reorderedPages = pageIds.stream()
                 .map(id -> pageRepository.findById(id)
                         .orElseThrow(() -> new PageNotFoundException("Page not found with id: " + id)))
